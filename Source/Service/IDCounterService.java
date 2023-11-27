@@ -16,10 +16,10 @@ public class IDCounterService {
             Path path = Paths.get(FILE_PATH);
             if (!Files.exists(path)) {
                 Files.createFile(path);
-                return 1;
+                return 1; // Начальное значение счетчика
             }
             String content = new String(Files.readAllBytes(path));
-            return content.isEmpty() ? 1 : Integer.parseInt(content.trim()) + 1;
+            return content.isEmpty() ? 1 : Integer.parseInt(content.trim());
         } catch (IOException e) {
             throw new RuntimeException("Ошибка при чтении файла: " + FILE_PATH, e);
         }
