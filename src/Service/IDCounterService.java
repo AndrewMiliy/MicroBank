@@ -1,0 +1,41 @@
+package Service;
+
+import java.io.*;
+import java.nio.file.*;
+
+public class IDCounterService {
+    private static final String FILE_PATH = "user_id_counter.txt";
+    private int counter;
+
+    public IDCounterService() {
+        this.counter = readCounterFromFile();
+    }
+
+    private int readCounterFromFile() {
+        try {
+            Path path = Paths.get(FILE_PATH);
+            if (!Files.exists(path)) {
+                Files.createFile(path);
+                return 1;
+            }
+            String content = new String(Files.readAllBytes(path));
+            return content.isEmpty() ? 1 : Integer.parseInt(content.trim()) + 1;
+        } catch (IOException e) {
+            throw new RuntimeException("Ошибка при чтении файла: " + FILE_PATH, e);
+        }
+    }
+
+    private void writeCounterToFile() {
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(FILE_PATH))) {
+            writer.write(String.valueOf(counter));
+        } catch (IOException e) {
+            throw new RuntimeException("Ошибка при записи в файл: " + FILE_PATH, e);
+        }
+    }
+
+    public synchronized int getNextUserId() {
+        int nextId = counter++;
+        writeCounterToFile();
+        return nextId;
+    }
+}
