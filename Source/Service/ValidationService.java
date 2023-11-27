@@ -1,4 +1,4 @@
-
+package Service;
 
 public class ValidationService {
     public boolean validateEmail(String email) {
