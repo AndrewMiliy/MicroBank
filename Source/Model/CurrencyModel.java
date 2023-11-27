@@ -3,12 +3,10 @@ package Model;
 public class CurrencyModel {
         private String name;
         private String codeName;
-        private double amount;
 
-    public CurrencyModel(String name, String codeName, double amount) {
+    public CurrencyModel(String name, String codeName) {
         this.name = name;
         this.codeName = codeName;
-        this.amount = amount;
     }
 
     public String getName() {
@@ -25,13 +23,5 @@ public class CurrencyModel {
 
     public void setCodeName(String codeName) {
         this.codeName = codeName;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
     }
 }
