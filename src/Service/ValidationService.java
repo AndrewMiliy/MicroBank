@@ -1,12 +1,12 @@
 package Service;
 
 public class ValidationService {
-    public boolean validateEmail(String email) {
+    public static boolean validateEmail(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         return email.matches(emailRegex);
     }
 
-    public boolean validatePassword(String password) {
+    public static boolean validatePassword(String password) {
         int minLength = 8;
         boolean hasLetter = false;
         boolean hasDigit = false;
@@ -30,7 +30,7 @@ public class ValidationService {
         return false;
     }
 
-    public boolean validateFullName(String fullName) {
+    public static boolean validateFullName(String fullName) {
         return fullName != null && !fullName.trim().isEmpty() && fullName.matches("[a-zA-Z\\s]+");
     }
 
@@ -38,3 +38,4 @@ public class ValidationService {
         return validateEmail(email) && validatePassword(password) && validateFullName(fullName);
     }
 }
+
