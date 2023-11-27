@@ -8,15 +8,15 @@ import java.util.Map;
 public class UserRepository {
     private Map<String, UserModel> users = new HashMap<>();
 
-    public void addUser(String userEmail, UserModel user) {
+    public void addUser(UserModel user) {
         users.put(user.getId(), user);
     }
 
-    public UserModel getUserById(String userId) {
+    public UserModel getUser(String userId) {
         return users.get(userId);
     }
 
-    public void deleteAccount(String userId, UserModel user) {
+    public void deleteUser(String userId, UserModel user) {
         users.put(userId, user);
     }
 
