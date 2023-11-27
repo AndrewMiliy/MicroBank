@@ -5,15 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9f237170-7f1d-4183-9120-0eaeefdea75f" name="Changes" comment="base of project">
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/Model/UserRole.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/Service/IDCounterService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MicroBank.iml" beforeDir="false" afterPath="$PROJECT_DIR$/MicroBank.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Model/TransactionModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Model/TransactionModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Model/BankAccountModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Model/BankAccountModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Model/CurrencyModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Model/CurrencyModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Model/UserModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Model/UserModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Model/UserRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Model/UserRole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Service/IDCounterService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Service/IDCounterService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,14 +29,14 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="mykhailo_27.11" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2YljO87FL2NGDw9ack12u9tfD9y" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -50,7 +48,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "develop",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "D:/AIT/Projects/MicroBank",
     "project.structure.last.edited": "Modules",
