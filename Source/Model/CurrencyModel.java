@@ -1,8 +1,8 @@
 package Model;
 
 public class CurrencyModel {
-        private String name;
-        private String codeName;
+    private String name;
+    private String codeName;
 
     public CurrencyModel(String name, String codeName) {
         this.name = name;
