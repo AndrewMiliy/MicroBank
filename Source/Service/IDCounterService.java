@@ -1,9 +1,9 @@
 package Service;
 
 public class IDCounterService {
-    private int id;
+    private String id;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 }
