@@ -12,15 +12,15 @@ public class UserRepository {
         users.put(user.getId(), user);
     }
 
-    public UserModel getUser(String id) {
-        return users.get(id);
+    public UserModel getUser(String userId) {
+        return users.get(userId);
     }
 
-    public void updateUser(String id, UserModel user) {
-        users.put(id, user);
+    public void deleteUser(String userId, UserModel user) {
+        users.put(userId, user);
     }
 
-    public void deleteUser(String id) {
-        users.remove(id);
+    public void updateUser(String userId, UserModel user) {
+        users.put(userId, user);
     }
 }

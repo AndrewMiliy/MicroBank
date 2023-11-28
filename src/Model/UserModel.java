@@ -8,6 +8,7 @@ public class UserModel {
     private String password;
     private String email;
     private List<String> bankAccountId;
+    private String id;
 
     public UserModel(String firstName, String lastName, String password, String email) {
         this.firstName = firstName;
@@ -54,5 +55,9 @@ public class UserModel {
 
     public void setBankAccountId(List<String> bankAccountId) {
         this.bankAccountId = bankAccountId;
+    }
+
+    public String getId() {
+        return id;
     }
 }
