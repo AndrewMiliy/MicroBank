@@ -2,9 +2,9 @@ package Model;
 
 public class BankAccountModel {
     private String bankAccountId; //номер счета
+    private String userId; //айдишник пользователя
     private final String currencyCode; //валюта счета
     private double balance; //баланс счёта
-    private String userId; //айдишник пользователя
 
     public BankAccountModel(String currencyCode) {
         this.currencyCode = currencyCode;
