@@ -2,12 +2,17 @@ package Service;
 
 import Model.BankAccountModel;
 import Model.TransactionModel;
+import Model.TransactionType;
+import Model.ExchangeRateModel;
 import Repository.BankAccountRepository;
 import Repository.ExchangeRateRepository;
 import Repository.TransactionRepository;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
+
+import static Service.IDCounterService.getNextTransactionID;
 
 public class TransactionService {
     private BankAccountRepository bankAccountRepository;
@@ -29,7 +34,13 @@ public class TransactionService {
             }
             account.setBalance(account.getBalance() + amount);
             bankAccountRepository.updateAccount(account);
-            transactionRepository.addTransaction(new TransactionModel(/* параметры транзакции */));
+            transactionRepository.addTransaction(accountId,
+                    new TransactionModel(getNextTransactionID(),
+                    accountId,
+                    Date.from(Instant.now()),
+                    amount,
+                    account.getCurrencyCode(),
+                    TransactionType.DEPOSIT));
         } catch (Exception e) {
             System.err.println("Ошибка при пополнении счета: " + e.getMessage());
         }
@@ -47,7 +58,13 @@ public class TransactionService {
             }
             account.setBalance(account.getBalance() - amount);
             bankAccountRepository.updateAccount(account);
-            transactionRepository.addTransaction(new TransactionModel(IDCounterService.getNextTransactionID(), accountId, Date.from(Instant.now()), amount, account.getCurrencyCode(), "withdraw"
+            transactionRepository.addTransaction(accountId,
+                    new TransactionModel(getNextTransactionID(),
+                    accountId,
+                    Date.from(Instant.now()),
+                    amount,
+                    account.getCurrencyCode(),
+                    TransactionType.WITHDRAW));
         } catch (Exception e) {
             System.err.println("Ошибка при снятии средств: " + e.getMessage());
         }
@@ -69,14 +86,8 @@ public class TransactionService {
             ExchangeRateModel rate = exchangeRateRepository.getCurrentExchangeRate(fromAccount.getCurrencyCode(), toAccount.getCurrencyCode());
             double convertedAmount = amount * rate.getRate();
 
-            fromAccount.setBalance(fromAccount.getBalance() - amount);
-            toAccount.setBalance(toAccount.getBalance() + convertedAmount);
-
-            bankAccountRepository.updateAccount(fromAccount);
-            bankAccountRepository.updateAccount(toAccount);
-
-            transactionRepository.addTransaction(new TransactionModel(/* параметры транзакции для fromAccount */));
-            transactionRepository.addTransaction(new TransactionModel(/* параметры транзакции для toAccount */));
+            withdraw(fromAccountId, amount);
+            deposit(toAccountId, convertedAmount);
         } catch (Exception e) {
             System.err.println("Ошибка при обмене валют: " + e.getMessage());
         }

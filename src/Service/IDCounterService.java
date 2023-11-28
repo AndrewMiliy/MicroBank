@@ -39,9 +39,9 @@ public class IDCounterService {
         return nextId;
     }
 
-    public static int getNextTransactionID() {
+    public static String getNextTransactionID() {
         int nextId = counter++;
         writeCounterToFile();
-        return nextId;
+        return String.valueOf(nextId);
     }
 }

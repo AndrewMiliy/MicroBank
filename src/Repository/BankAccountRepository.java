@@ -22,4 +22,21 @@ public class BankAccountRepository {
         userAccounts.getOrDefault(userId, new ArrayList<>()).removeIf(account -> account.getBankAccountId().equals(accountId));
     }
 
+    public BankAccountModel getAccount(String accountId) {
+        return userAccounts.values().stream()
+                .flatMap(List::stream)
+                .filter(account -> account.getBankAccountId().equals(accountId))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public void updateAccount(BankAccountModel account) {
+        userAccounts.values().stream()
+                .flatMap(List::stream)
+                .filter(a -> a.getBankAccountId().equals(account.getBankAccountId()))
+                .findFirst()
+                .ifPresent(a -> {
+                    a.setBalance(account.getBalance());
+                });
+    }
 }
