@@ -37,4 +37,8 @@ public class BankAccountService {
     public void deleteBankAccount(String userId, String accountId) {
         bAR.deleteAccount(userId, accountId);
     }
+
+    public void transferBalance(String bankAccountIdFrom, String bankAccountIdTo, double money) {
+        tS.exchangeCurrency(bankAccountIdFrom, bankAccountIdTo, money);
+    }
 }
