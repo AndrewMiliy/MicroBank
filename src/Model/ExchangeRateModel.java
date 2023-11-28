@@ -9,7 +9,12 @@ public class ExchangeRateModel {
     private double rate;         // Курс обмена
 
     // Конструкторы, геттеры и сеттеры
-    public ExchangeRateModel(String currencyFrom, String currencyTo, Date timestamp, double rate) {
+    public ExchangeRateModel(String currencyFrom, String currencyTo, double rate) {
+        this(currencyFrom, currencyTo, rate, null);
+    }
+
+    // Конструкторы, геттеры и сеттеры
+    public ExchangeRateModel(String currencyFrom, String currencyTo, double rate, Date timestamp) {
         this.currencyFrom = currencyFrom;
         this.currencyTo = currencyTo;
         this.timestamp = timestamp;

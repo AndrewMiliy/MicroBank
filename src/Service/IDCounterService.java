@@ -5,7 +5,7 @@ import java.nio.file.*;
 
 public class IDCounterService {
     private static final String FILE_PATH = "user_id_counter.txt";
-    private int counter;
+    private static int counter;
 
     public IDCounterService() {
         this.counter = readCounterFromFile();
@@ -25,7 +25,7 @@ public class IDCounterService {
         }
     }
 
-    private void writeCounterToFile() {
+    private static void writeCounterToFile() {
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(FILE_PATH))) {
             writer.write(String.valueOf(counter));
         } catch (IOException e) {
@@ -33,7 +33,13 @@ public class IDCounterService {
         }
     }
 
-    public synchronized int getNextUserId() {
+    public static int getNextUserId() {
+        int nextId = counter++;
+        writeCounterToFile();
+        return nextId;
+    }
+
+    public static int getNextTransactionID() {
         int nextId = counter++;
         writeCounterToFile();
         return nextId;
