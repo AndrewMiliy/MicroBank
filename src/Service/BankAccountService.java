@@ -12,14 +12,14 @@ public class BankAccountService {
     private UserRepository uR;
     private BankAccountRepository bAR;
     private CurrencyRepository cR;
-    private TransactionRepository tR;
+    private TransactionService tS;
 
     public BankAccountService(UserRepository uR, BankAccountRepository bAR
-            , CurrencyRepository cR, TransactionRepository tR) {
+            , CurrencyRepository cR, TransactionService tR) {
         this.uR = uR;
         this.bAR = bAR;
         this.cR = cR;
-        this.tR = tR;
+        this.tS = tS;
     }
 
     public void addBankAccount(String userId, BankAccountModel account) {
@@ -30,13 +30,10 @@ public class BankAccountService {
         return account.toString();
     }
 
- /*   public boolean addBalance(BankAccountModel account, double money, String code) {
-
-        try {
-            tR.addTransaction(account.getBankAccountId(), new TransactionModel(account.getBankAccountId(), LocalDate.now(), money, cR.getCurrency(code), ));
-        }
+   public void addBalance(BankAccountModel account, double money) {
+       tS.deposit(account.getBankAccountId(),money);
     }
-*/
+
     public void deleteBankAccount(String userId, String accountId) {
         bAR.deleteAccount(userId, accountId);
     }
