@@ -1,14 +1,18 @@
 package Model;
 
+import java.util.Date;
+
 public class ExchangeRateModel {
     private String currencyFrom; // Исходная валюта
     private String currencyTo;   // Целевая валюта
+    private Date timestamp;           // Дата курса
     private double rate;         // Курс обмена
 
     // Конструкторы, геттеры и сеттеры
-    public ExchangeRateModel(String currencyFrom, String currencyTo, double rate) {
+    public ExchangeRateModel(String currencyFrom, String currencyTo, Date timestamp, double rate) {
         this.currencyFrom = currencyFrom;
         this.currencyTo = currencyTo;
+        this.timestamp = timestamp;
         this.rate = rate;
     }
 
@@ -36,6 +40,7 @@ public class ExchangeRateModel {
         this.rate = rate;
     }
 
+
     @Override
     public String toString() {
         return "ExchangeRateModel{" +
@@ -43,5 +48,13 @@ public class ExchangeRateModel {
                 ", currencyTo='" + currencyTo + '\'' +
                 ", rate=" + rate +
                 '}';
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 }
