@@ -22,5 +22,4 @@ public class BankAccountRepository {
         userAccounts.getOrDefault(userId, new ArrayList<>()).removeIf(account -> account.getBankAccountId().equals(accountId));
     }
 
-
 }

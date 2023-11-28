@@ -8,16 +8,16 @@ public class TransactionModel {
     private Date date;            // Дата транзакции
     private double amount;        // Сумма транзакции
     private String currencyCode;  // Код валюты
-    private String type;          // Тип транзакции (например, пополнение, снятие)
+    private TransactionType transactionType;          // Тип транзакции (например, пополнение, снятие)
 
     // Конструкторы, геттеры и сеттеры
-    public TransactionModel(String transactionId, String accountId, Date date, double amount, String currencyCode, String type) {
+    public TransactionModel(String transactionId, String accountId, Date date, double amount, String currencyCode, TransactionType transactionType) {
         this.transactionId = transactionId;
         this.accountId = accountId;
         this.date = date;
         this.amount = amount;
         this.currencyCode = currencyCode;
-        this.type = type;
+        this.transactionType = transactionType;
     }
 
     public String getTransactionId() {
@@ -60,12 +60,12 @@ public class TransactionModel {
         this.currencyCode = currencyCode;
     }
 
-    public String getType() {
-        return type;
+    public TransactionType getType() {
+        return transactionType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setType(TransactionType transactionType) {
+        this.transactionType = transactionType;
     }
 
     @Override
@@ -76,7 +76,7 @@ public class TransactionModel {
                 ", date=" + date +
                 ", amount=" + amount +
                 ", currencyCode='" + currencyCode + '\'' +
-                ", type='" + type + '\'' +
+                ", transactionType='" + transactionType + '\'' +
                 '}';
     }
 }

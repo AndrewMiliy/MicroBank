@@ -29,4 +29,12 @@ public class BankAccountModel {
     public void setBalance(double balance) {
         this.balance = balance;
     }
+
+    @Override
+    public String toString() {
+        return "BankAccountModel{" +
+                "CurrencyCode='" + currencyCode + '\'' +
+                ", Balance=" + balance +
+                '}';
+    }
 }
