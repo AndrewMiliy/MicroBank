@@ -1,12 +1,9 @@
 package Service;
 
-import Model.*;
+import Model.BankAccountModel;
 import Repository.BankAccountRepository;
 import Repository.CurrencyRepository;
-import Repository.TransactionRepository;
 import Repository.UserRepository;
-
-import java.time.LocalDate;
 
 public class BankAccountService {
     private UserRepository uR;
@@ -15,11 +12,10 @@ public class BankAccountService {
     private TransactionService tS;
 
     public BankAccountService(UserRepository uR, BankAccountRepository bAR
-            , CurrencyRepository cR, TransactionService tR) {
+            , CurrencyRepository cR) {
         this.uR = uR;
         this.bAR = bAR;
         this.cR = cR;
-        this.tS = tS;
     }
 
     public void addBankAccount(String userId, BankAccountModel account) {
@@ -30,15 +26,11 @@ public class BankAccountService {
         return account.toString();
     }
 
-   public void addBalance(BankAccountModel account, double money) {
-       tS.deposit(account.getBankAccountId(),money);
-    }
+
 
     public void deleteBankAccount(String userId, String accountId) {
         bAR.deleteAccount(userId, accountId);
     }
 
-    public void transferBalance(String bankAccountIdFrom, String bankAccountIdTo, double money) {
-        tS.exchangeCurrency(bankAccountIdFrom, bankAccountIdTo, money);
-    }
+
 }

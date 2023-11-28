@@ -19,9 +19,10 @@ public class UserService {
         }
     }
 
-    public void register(String email, String firstName, String lastName, String password) {
+    public UserModel register(String email, String firstName, String lastName, String password) {
         UserModel newUser = new UserModel(email, password, firstName, lastName);
         uR.addUser(newUser);
+        return newUser;
     }
 
     // Авторизация
