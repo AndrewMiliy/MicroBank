@@ -15,6 +15,7 @@ public class UserRepository {
     public UserModel getUser(String userId) {
         return users.get(userId);
     }
+    public UserModel getUserByEmail (String email) { return users.get(email);}
 
     public void deleteUser(String userId, UserModel user) {
         users.put(userId, user);

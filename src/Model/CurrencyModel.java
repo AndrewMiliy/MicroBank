@@ -1,8 +1,8 @@
 package Model;
 
-public class CurrencyModel {
-    private String name;
-    private String codeName;
+public class CurrencyModel { //валюты
+    private String name; // название
+    private String codeName; // аббревиатура
 
     public CurrencyModel(String name, String codeName) {
         this.name = name;
