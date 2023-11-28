@@ -1,9 +1,9 @@
 package Service;
 
 import Model.BankAccountModel;
+import Model.ExchangeRateModel;
 import Model.TransactionModel;
 import Model.TransactionType;
-import Model.ExchangeRateModel;
 import Repository.BankAccountRepository;
 import Repository.ExchangeRateRepository;
 import Repository.TransactionRepository;
@@ -11,8 +11,6 @@ import Repository.TransactionRepository;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
-
-import static Service.IDCounterService.getNextTransactionID;
 
 public class TransactionService {
     private BankAccountRepository bankAccountRepository;
@@ -35,7 +33,7 @@ public class TransactionService {
             account.setBalance(account.getBalance() + amount);
             bankAccountRepository.updateAccount(account);
             transactionRepository.addTransaction(accountId,
-                    new TransactionModel(getNextTransactionID(),
+                    new TransactionModel(IDCounterService.getNextTransactionID(),
                     accountId,
                     Date.from(Instant.now()),
                     amount,
@@ -59,7 +57,7 @@ public class TransactionService {
             account.setBalance(account.getBalance() - amount);
             bankAccountRepository.updateAccount(account);
             transactionRepository.addTransaction(accountId,
-                    new TransactionModel(getNextTransactionID(),
+                    new TransactionModel(IDCounterService.getNextTransactionID(),
                     accountId,
                     Date.from(Instant.now()),
                     amount,

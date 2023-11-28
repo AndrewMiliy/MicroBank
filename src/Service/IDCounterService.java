@@ -2,46 +2,70 @@ package Service;
 
 import java.io.*;
 import java.nio.file.*;
+import java.util.Properties;
 
 public class IDCounterService {
-    private static final String FILE_PATH = "user_id_counter.txt";
-    private static int counter;
+    private static final String FILE_PATH = "counters.properties";
+    private static int userCounter, transactionCounter, bankAccountCounter, exchangeRateCounter;
 
-    public IDCounterService() {
-        this.counter = readCounterFromFile();
+    static {
+        loadCountersFromFile();
     }
 
-    private int readCounterFromFile() {
+    private static void loadCountersFromFile() {
+        Properties properties = new Properties();
+        Path path = Paths.get(FILE_PATH);
+
         try {
-            Path path = Paths.get(FILE_PATH);
             if (!Files.exists(path)) {
                 Files.createFile(path);
-                return 1; // Начальное значение счетчика
+            } else {
+                properties.load(Files.newInputStream(path));
+                userCounter = Integer.parseInt(properties.getProperty("userCounter", "1"));
+                transactionCounter = Integer.parseInt(properties.getProperty("transactionCounter", "1"));
+                bankAccountCounter = Integer.parseInt(properties.getProperty("bankAccountCounter", "1"));
+                exchangeRateCounter = Integer.parseInt(properties.getProperty("exchangeRateCounter", "1"));
             }
-            String content = new String(Files.readAllBytes(path));
-            return content.isEmpty() ? 1 : Integer.parseInt(content.trim());
         } catch (IOException e) {
-            throw new RuntimeException("Ошибка при чтении файла: " + FILE_PATH, e);
+            throw new RuntimeException("Ошибка при загрузке счетчиков из файла: " + FILE_PATH, e);
         }
     }
 
-    private static void writeCounterToFile() {
+    private static void saveCountersToFile() {
+        Properties properties = new Properties();
+        properties.setProperty("userCounter", String.valueOf(userCounter));
+        properties.setProperty("transactionCounter", String.valueOf(transactionCounter));
+        properties.setProperty("bankAccountCounter", String.valueOf(bankAccountCounter));
+        properties.setProperty("exchangeRateCounter", String.valueOf(exchangeRateCounter));
+
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(FILE_PATH))) {
-            writer.write(String.valueOf(counter));
+            properties.store(writer, null);
         } catch (IOException e) {
-            throw new RuntimeException("Ошибка при записи в файл: " + FILE_PATH, e);
+            throw new RuntimeException("Ошибка при сохранении счетчиков в файл: " + FILE_PATH, e);
         }
     }
 
-    public static int getNextUserId() {
-        int nextId = counter++;
-        writeCounterToFile();
-        return nextId;
+    public static String getNextUserId() {
+        userCounter++;
+        saveCountersToFile();
+        return String.valueOf(userCounter);
     }
 
     public static String getNextTransactionID() {
-        int nextId = counter++;
-        writeCounterToFile();
-        return String.valueOf(nextId);
+        transactionCounter++;
+        saveCountersToFile();
+        return String.valueOf(transactionCounter);
+    }
+
+    public static String getNextBankAccountID() {
+        bankAccountCounter++;
+        saveCountersToFile();
+        return String.valueOf(bankAccountCounter);
+    }
+
+    public static String getNextExchangeRateID() {
+        exchangeRateCounter++;
+        saveCountersToFile();
+        return String.valueOf(exchangeRateCounter);
     }
 }

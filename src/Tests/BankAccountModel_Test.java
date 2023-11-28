@@ -12,7 +12,7 @@ public class BankAccountModel_Test {
     @Before
     public void setUp() {
         // Create a BankAccountModel instance before each test
-        bankAccount = new BankAccountModel("USD");
+        bankAccount = new BankAccountModel("bankAccountId", "userId", "USD");
     }
 
     @Test

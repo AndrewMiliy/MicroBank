@@ -1,9 +1,12 @@
 package Tests;
 
 import Model.TransactionModel;
+import Model.TransactionType;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+
+import java.time.Instant;
 import java.util.Date;
 
 public class TransactionModel_Test {
@@ -13,8 +16,8 @@ public class TransactionModel_Test {
     @Before
     public void setUp() {
 
-        Date currentDate = new Date();
-        transaction = new TransactionModel("123456", "789012", currentDate, 100.0, "USD", "Deposit");
+        Date currentDate = Date.from(Instant.now());
+        transaction = new TransactionModel("123456", "789012", currentDate, 100.0, "USD", TransactionType.DEPOSIT);
     }
 
     @Test
@@ -80,8 +83,8 @@ public class TransactionModel_Test {
 
     @Test
     public void testSetType() {
-        transaction.setType("Withdrawal");
-        assertEquals("Withdrawal", transaction.getType());
+        transaction.setType(TransactionType.DEPOSIT);
+        assertEquals(TransactionType.DEPOSIT, transaction.getType());
     }
 
     @Test

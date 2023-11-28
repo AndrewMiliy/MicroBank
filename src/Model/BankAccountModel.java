@@ -6,7 +6,9 @@ public class BankAccountModel {
     private final String currencyCode; //валюта счета
     private double balance; //баланс счёта
 
-    public BankAccountModel(String currencyCode) {
+    public BankAccountModel(String bankAccountId, String userId, String currencyCode) {
+        this.bankAccountId = bankAccountId;
+        this.userId = userId;
         this.currencyCode = currencyCode;
     }
 
