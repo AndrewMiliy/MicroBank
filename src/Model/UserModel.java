@@ -9,7 +9,7 @@ public class UserModel {
     private String email;
     private List<String> bankAccountId;
     private String id;
-
+    private UserRole userRole;
     public UserModel(String firstName, String lastName, String password, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -59,5 +59,13 @@ public class UserModel {
 
     public String getId() {
         return id;
+    }
+
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
     }
 }
