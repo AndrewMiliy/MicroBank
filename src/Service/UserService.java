@@ -2,20 +2,13 @@ package Service;
 
 import Model.UserModel;
 import Model.UserRole;
-import Repository.BankAccountRepository;
-import Repository.CurrencyRepository;
-import Repository.TransactionRepository;
 import Repository.UserRepository;
 
 public class UserService {
     private UserRepository uR;
-    private BankAccountRepository bAR;
-    private CurrencyRepository cR;
-    private TransactionRepository tR;
 
-    public UserService(UserRepository uR, BankAccountRepository bAR) {
+    public UserService(UserRepository uR) {
         this.uR = uR;
-        this.bAR = bAR;
     }
 
     public void setUserRole(UserModel user, UserRole role, UserModel admin) {
