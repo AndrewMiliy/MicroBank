@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.List;
+
 public class BankAccountModel {
     private String bankAccountId; //номер счета
     private String userId; //айдишник пользователя

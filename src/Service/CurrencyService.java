@@ -5,6 +5,8 @@ import Model.UserModel;
 import Model.UserRole;
 import Repository.CurrencyRepository;
 
+import java.util.List;
+
 public class CurrencyService {
     private CurrencyRepository cR;
 
@@ -32,4 +34,8 @@ public class CurrencyService {
             System.out.println("Только администратор может изменять валюту.");
         }
     }
+    public List<CurrencyModel> getAllCurrencies() {
+        return cR.getAllCurrencies();
+    }
+
 }

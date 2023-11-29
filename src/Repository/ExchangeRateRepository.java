@@ -31,4 +31,10 @@ public class ExchangeRateRepository {
     private String createKey(String currencyFrom, String currencyTo) {
         return currencyFrom + "_" + currencyTo;
     }
+
+    private void updateExchangeRate(ExchangeRateModel exchangeRate) {
+        String key = createKey(exchangeRate.getCurrencyFrom(), exchangeRate.getCurrencyTo());
+        exchangeRates.computeIfAbsent(key, k -> new ArrayList<>()).add(exchangeRate);
+    }
+
 }

@@ -2,6 +2,7 @@ package Repository;
 
 import Model.CurrencyModel;
 
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -23,4 +24,9 @@ public class CurrencyRepository {
     public void deleteCurrency(String code) {
         currencies.remove(code);
     }
+
+    public List<CurrencyModel> getAllCurrencies() {
+        return List.copyOf(currencies.values());
+    }
+
 }

@@ -24,7 +24,7 @@ public class TransactionService {
     }
 
     // Пополнение счета
-    public void deposit(String accountId, double amount) {
+    public boolean deposit(String accountId, double amount) {
         try {
             BankAccountModel account = bankAccountRepository.getAccount(accountId);
             if (account == null) {
@@ -34,18 +34,22 @@ public class TransactionService {
             bankAccountRepository.updateAccount(account);
             transactionRepository.addTransaction(accountId,
                     new TransactionModel(IDCounterService.getNextTransactionID(),
-                    accountId,
-                    Date.from(Instant.now()),
-                    amount,
-                    account.getCurrencyCode(),
-                    TransactionType.DEPOSIT));
+                            accountId,
+                            Date.from(Instant.now()),
+                            amount,
+                            account.getCurrencyCode(),
+                            TransactionType.DEPOSIT));
+            return true;
         } catch (Exception e) {
             System.err.println("Ошибка при пополнении счета: " + e.getMessage());
+            return false;
         }
     }
 
+
     // Снятие средств со счета
-    public void withdraw(String accountId, double amount) {
+    // Снятие средств со счета
+    public boolean withdraw(String accountId, double amount) {
         try {
             BankAccountModel account = bankAccountRepository.getAccount(accountId);
             if (account == null) {
@@ -58,18 +62,22 @@ public class TransactionService {
             bankAccountRepository.updateAccount(account);
             transactionRepository.addTransaction(accountId,
                     new TransactionModel(IDCounterService.getNextTransactionID(),
-                    accountId,
-                    Date.from(Instant.now()),
-                    amount,
-                    account.getCurrencyCode(),
-                    TransactionType.WITHDRAW));
+                            accountId,
+                            Date.from(Instant.now()),
+                            amount,
+                            account.getCurrencyCode(),
+                            TransactionType.WITHDRAW));
+            return true;
         } catch (Exception e) {
             System.err.println("Ошибка при снятии средств: " + e.getMessage());
+            return false;
         }
     }
 
+
     // Обмен валют
-    public void exchangeCurrency(String fromAccountId, String toAccountId, double amount) {
+    // Обмен валют
+    public boolean exchangeCurrency(String fromAccountId, String toAccountId, double amount) {
         try {
             BankAccountModel fromAccount = bankAccountRepository.getAccount(fromAccountId);
             BankAccountModel toAccount = bankAccountRepository.getAccount(toAccountId);
@@ -86,10 +94,13 @@ public class TransactionService {
 
             withdraw(fromAccountId, amount);
             deposit(toAccountId, convertedAmount);
+            return true;
         } catch (Exception e) {
             System.err.println("Ошибка при обмене валют: " + e.getMessage());
+            return false;
         }
     }
+
 
     // Получение истории транзакций по счету
     public List<TransactionModel> getTransactionHistory(String accountId) {

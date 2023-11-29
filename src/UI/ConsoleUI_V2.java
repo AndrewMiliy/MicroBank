@@ -4,6 +4,7 @@ import Model.*;
 import Repository.*;
 import Service.*;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleUI_V2 {
@@ -11,6 +12,7 @@ public class ConsoleUI_V2 {
     private BankAccountService bankAccountService;
     private TransactionService transactionService;
     private CurrencyService currencyService;
+    private ExchangeRateService exchangeRateService;
     private ValidationService validationService;
     private Scanner scanner;
     private UserModel currentUser;
@@ -26,6 +28,7 @@ public class ConsoleUI_V2 {
         this.bankAccountService = new BankAccountService(userRepository, bankAccountRepository, currencyRepository);
         this.transactionService = new TransactionService(bankAccountRepository, transactionRepository, exchangeRateRepository);
         this.currencyService = new CurrencyService(currencyRepository);
+        this.exchangeRateService = new ExchangeRateService(exchangeRateRepository);
         this.validationService = new ValidationService();
 
         this.scanner = new Scanner(System.in);
@@ -34,7 +37,7 @@ public class ConsoleUI_V2 {
     public void auth() {
         boolean running = true;
         while (running) {
-            System.out.println("Выберите опцию: \n1. Регистрация \n2. Вход \n3. Выход");
+            System.out.println("Выберите опцию: \n1. Регистрация \n2. Вход \n0. Выход");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Очистка буфера сканера
             switch (choice) {
@@ -44,7 +47,7 @@ public class ConsoleUI_V2 {
                 case 2:
                     loginUser();
                     break;
-                case 3:
+                case 0:
                     running = false;
                     break;
                 default:
@@ -66,7 +69,7 @@ public class ConsoleUI_V2 {
 
         // Валидация и создание пользователя
         try {
-            currentUser = userService.register(email, firstName,lastName, password);
+            currentUser = userService.register(firstName, lastName, password, email);
             System.out.println("Пользователь успешно зарегистрирован: " + currentUser.getId());
         } catch (Exception e) {
             System.out.println("Ошибка регистрации: " + e.getMessage());
@@ -85,37 +88,232 @@ public class ConsoleUI_V2 {
         if (user != null) {
             currentUser = user;
             System.out.println("Вход выполнен успешно. Добро пожаловать, " + user.getEmail());
-            showUserMenu();
+            if (user.getUserRole().equals(UserRole.ADMIN)) {
+                showAdminMenu();
+            } else {
+                showUserMenu();
+            }
         } else {
             System.out.println("Неверный email или пароль.");
+            System.out.println("Возвращаем в окно авторизации.");
+            auth();
         }
     }
 
+
+    private void showAdminMenu() { //TODO во второе меню.
+    }
+
     private void showUserMenu() {
-        boolean isUserLoggedIn = true;
-        while (isUserLoggedIn) {
+        while (isUserLoggedIn()) {
             System.out.println("Пользовательское меню:");
-            System.out.println("1. Просмотр баланса \n2. Пополнение счета \n3. Снятие средств \n4. Выход");
+            System.out.println("1. Мои счета \n2. Курсы валют \n0. Выйти из аккаунта");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Очистка буфера сканера
             switch (choice) {
                 case 1:
-                    // Логика просмотра баланса
+                    showBankAccountsMenu();
+                    // Логика просмотра счетов
                     break;
                 case 2:
-                    // Логика пополнения счета
+                    showCurrencyMenu();
+                    // Логика просмотра валюты
                     break;
-                case 3:
-                    // Логика снятия средств
-                    break;
-                case 4:
-                    isUserLoggedIn = false;
+                case 0:
                     currentUser = null;
+                    auth();
                     break;
                 default:
                     System.out.println("Неверная опция.");
             }
         }
+    }
+
+    private void showBankAccountsMenu() {
+        List<BankAccountModel> bankAccounts = null;
+        while (isUserLoggedIn()) {
+            System.out.println("Меню управления счетами");
+            bankAccounts = BankAccountService.getAllAccountsForUser(currentUser.getId());
+            for (var i : bankAccounts) {
+                System.out.println(i.getCurrencyCode() + ": " + i.getBalance());
+            }
+            System.out.println("1. Выбрать счет(введите код счета) \n2. Создать счет \n0. Вернуться в предыдущее меню");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Очистка буфера сканера
+            switch (choice) {
+                case 1:
+                    for (var i : bankAccounts) {
+                        if (i.getCurrencyCode().equals(choice)) {
+                            showBankAccountMenu(i);
+                        }
+                    }
+                    System.out.println("Счета с таким кодом не найдено. Попробуйте ещё раз.");
+                    // Логика выбора счета
+                    break;
+                case 2:
+                    if (!createBankAccountMenu()) {
+                        System.out.println("Не получилось создать счет, попробуйте ещё раз.");
+                    }else {
+                        System.out.println("Счет успешно создан");
+                    }
+                    // Логика создания счета
+                    break;
+                case 0:
+                    showUserMenu(); //Возвращение в предыдущее меню
+                    break;
+                default:
+                    System.out.println("Неверная опция.");
+            }
+        }
+    }
+
+
+
+    private void showBankAccountMenu(BankAccountModel bankAccount) {
+        System.out.println(bankAccount.getCurrencyCode() + ": " + bankAccount.getBalance());
+        while (isUserLoggedIn()) {
+            System.out.println("Выберите действие");
+            System.out.println("1. Deposit \n2. Withdraw \n3. Transfer \n4. History \n5. Delete \n0. Вернуться в предыдущее меню");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Очистка буфера сканера
+            switch (choice) {
+                case 1:
+                    if (!deposit(bankAccount)) {
+                        System.out.println("Не получилось сделать deposit, попробуйте ещё раз.");
+                    } else {
+                        System.out.println("Счет успешно пополнен");
+                    }
+                    break;
+                case 2:
+                    if (!withdraw(bankAccount)) {
+                        System.out.println("Не получилось сделать withdraw, попробуйте ещё раз.");
+                    } else {
+                        System.out.println("Деньги успешно сняты");
+                    }
+                    break;
+                case 3:
+                    if(transfer(bankAccount)) {
+                        System.out.println("Не получилось сделать transfer, попробуйте ещё раз.");
+                    } else {
+                        System.out.println("Валюта успешно переведена");
+                    }
+                    break;
+                case 4:
+                    historyBankAccount(bankAccount);
+                    break;
+                case 5:
+                    if (deleteBankAccount(bankAccount)) {
+                        System.out.println("Не получилось сделать delete, попробуйте ещё раз.");
+                    } else {
+                        System.out.println("Счет успешно удалён");
+                    }
+                    break;
+                case 0:
+                    showBankAccountsMenu();
+                    break;
+            }
+        }
+    }
+    private boolean deposit(BankAccountModel bankAccount) {
+        System.out.println("Введите сумму для deposit кратную единице");
+        int deposit = scanner.nextInt();
+        scanner.nextLine(); // Очистка буфера сканера
+        return transactionService.deposit(bankAccount.getBankAccountId(), deposit);        
+    }
+    private boolean withdraw(BankAccountModel bankAccount) {
+        System.out.println("Введите сумму для withdraw кратную единице");
+        int withdraw = scanner.nextInt();
+        scanner.nextLine(); // Очистка буфера сканера
+        return transactionService.withdraw(bankAccount.getBankAccountId(), withdraw);
+    }
+
+    private boolean transfer(BankAccountModel bankAccount) {
+        System.out.println("На какой счет переводим?");
+        System.out.println("Доступные счета: ");
+        for (var i : BankAccountService.getAllAccountsForUser(currentUser.getId())) {
+            if (i.getCurrencyCode() != bankAccount.getCurrencyCode()) {
+                System.out.println(i.getCurrencyCode() + ": " + i.getBalance());
+            }
+        }
+        String accountTo = scanner.nextLine();
+        System.out.println("Введите сумму для transfer кратную единице");
+        int transfer = scanner.nextInt();
+        scanner.nextLine(); // Очистка буфера сканера
+        return transactionService.exchangeCurrency(bankAccount.getBankAccountId(), bankAccountService.getAccount(accountTo).getBankAccountId(), transfer);
+    }
+    private void historyBankAccount(BankAccountModel bankAccount) {
+        List<TransactionModel> history = transactionService.getTransactionHistory(bankAccount.getBankAccountId());
+        if (history == null || (long) history.size() == 0) {
+            System.out.println("Этот счет, ещё не имеет своей истории, начните её.");
+        } else {
+            System.out.println("История счёта");
+            for (var i : history) {
+                System.out.println(i.getDate() + " - " + i.getCurrencyCode() + ": " + i.getAmount());
+            }
+        }
+        System.out.println("Введите любое значение для продолжения");
+        String pressAnyKey = scanner.nextLine();
+        scanner.nextLine(); // Очистка буфера сканера
+        showBankAccountMenu(bankAccount);
+    }
+    private boolean deleteBankAccount(BankAccountModel bankAccount) {
+        while (bankAccount.getBalance() > 0) {
+            System.out.println("У вас на счету есть деньги, если вы продолжите вы их потеряете.");
+            System.out.println("На какой счет их перевести?");
+            for (var i : BankAccountService.getAllAccountsForUser(currentUser.getId())) {
+                if (i.getCurrencyCode() != bankAccount.getCurrencyCode()) {
+                    System.out.println(i.getCurrencyCode() + ": " + i.getBalance());
+                }
+            }
+            System.out.println("Ждём ввод счёта:");
+            String accountName = scanner.nextLine();
+            scanner.nextLine();
+            BankAccountModel accountTo = bankAccountService.getAccount(accountName);
+            if (accountTo != null) {
+                transactionService.exchangeCurrency(bankAccount.getBankAccountId(), accountTo.getBankAccountId(), bankAccount.getBalance());
+                System.out.println("Ваши деньги переведены на: " + accountTo.getCurrencyCode() + ": " + accountTo.getBalance());
+                System.out.println("По курсу: " + exchangeRateService.getCurrentExchangeRate(bankAccount.getCurrencyCode(), accountTo.getCurrencyCode()));
+                System.out.println("Ваш счет удален.");
+            } else {
+                System.out.println("Такого счета нет");
+                System.out.println("1. Попробуйте ещё раз \n 0. Вернуться.");
+                int choice = scanner.nextInt();
+                scanner.nextLine();
+                switch (choice){
+                    case 1:
+                        deleteBankAccount(bankAccount);
+                        break;
+                    case 0:
+                        return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean createBankAccountMenu() {
+        BankAccountModel bankAccount;
+        System.out.println("Выберите доступную валюту для счета:");
+        for (var i : currencyService.getAllCurrencies()) {
+            for (var j : BankAccountService.getAllAccountsForUser(currentUser.getId())) {
+                if (i.getCodeName() != j.getCurrencyCode()){
+                    System.out.println(i.getCodeName());
+                }
+            }
+        }
+        String choice = scanner.nextLine();
+        scanner.nextLine();
+        BankAccountModel newBankAccount = new BankAccountModel(IDCounterService.getNextBankAccountID(), IDCounterService.getNextUserId(), choice);
+        bankAccountService.addBankAccount(currentUser.getId(), newBankAccount);
+        return true;
+    }
+
+    private void showCurrencyMenu() {
+
+    }
+
+    private boolean isUserLoggedIn () {
+        return currentUser != null;
     }
 
     // Дополнительные методы для других операций

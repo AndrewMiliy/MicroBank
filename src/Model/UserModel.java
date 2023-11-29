@@ -1,5 +1,7 @@
 package Model;
 
+import Service.IDCounterService;
+
 import java.util.List;
 
 public class UserModel {
@@ -11,6 +13,8 @@ public class UserModel {
     private String id;
     private UserRole userRole;
     public UserModel(String firstName, String lastName, String password, String email) {
+        this.id = IDCounterService.getNextUserId();
+        this.userRole = UserRole.USER;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;

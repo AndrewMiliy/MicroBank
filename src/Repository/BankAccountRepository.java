@@ -39,4 +39,7 @@ public class BankAccountRepository {
                     a.setBalance(account.getBalance());
                 });
     }
+    public List<BankAccountModel> getAllAccountsForUser(String userId) {
+        return accounts.getOrDefault(userId, new ArrayList<>());
+    }
 }

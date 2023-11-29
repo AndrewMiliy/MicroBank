@@ -19,8 +19,8 @@ public class UserService {
         }
     }
 
-    public UserModel register(String email, String firstName, String lastName, String password) {
-        UserModel newUser = new UserModel(email, password, firstName, lastName);
+    public UserModel register(String firstName, String lastName, String password, String email) {
+        UserModel newUser = new UserModel(firstName, lastName, password, email);
         uR.addUser(newUser);
         return newUser;
     }

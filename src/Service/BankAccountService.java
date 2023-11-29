@@ -5,9 +5,11 @@ import Repository.BankAccountRepository;
 import Repository.CurrencyRepository;
 import Repository.UserRepository;
 
+import java.util.List;
+
 public class BankAccountService {
     private UserRepository uR;
-    private BankAccountRepository bAR;
+    private static BankAccountRepository bAR;
     private CurrencyRepository cR;
     private TransactionService tS;
 
@@ -32,5 +34,12 @@ public class BankAccountService {
         bAR.deleteAccount(userId, accountId);
     }
 
+    public static List<BankAccountModel> getAllAccountsForUser(String userId) {
+        return bAR.getAllAccountsForUser(userId);
+    }
+
+    public BankAccountModel getAccount(String accountId) {
+        return bAR.getAccount(accountId);
+    }
 
 }
