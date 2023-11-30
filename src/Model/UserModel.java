@@ -2,6 +2,7 @@ package Model;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserModel implements Serializable {
@@ -12,7 +13,7 @@ public class UserModel implements Serializable {
     private String lastName;
     private String password;
     private String email;
-    private List<String> bankAccountId;
+    private List<String> bankAccountId = new ArrayList<>();
     private String id;
     private UserRole userRole;
     public UserModel(String ID, String firstName, String lastName, String password, String email, UserRole userRole) {
@@ -75,4 +76,9 @@ public class UserModel implements Serializable {
     public void setUserRole(UserRole userRole) {
         this.userRole = userRole;
     }
+
+    public void addBankAccount(BankAccountModel account) {
+        this.bankAccountId.add(account.getBankAccountId());
+    }
+
 }

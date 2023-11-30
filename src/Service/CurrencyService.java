@@ -37,5 +37,8 @@ public class CurrencyService {
     public List<CurrencyModel> getAllCurrencies() {
         return cR.getAllCurrencies();
     }
+    public CurrencyModel getCurrency(String code) {
+        return cR.getCurrency(code);
+    }
 
 }

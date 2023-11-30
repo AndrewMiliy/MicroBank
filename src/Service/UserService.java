@@ -4,6 +4,9 @@ import Model.UserModel;
 import Model.UserRole;
 import Repository.UserRepository;
 
+import java.util.List;
+import java.util.Map;
+
 public class UserService {
     private UserRepository uR;
 
@@ -14,6 +17,7 @@ public class UserService {
     public void setUserRole(UserModel user, UserRole role, UserModel admin) {
         if (admin.getUserRole() == UserRole.ADMIN) {
             user.setUserRole(role);
+            uR.SaveData();
         } else {
             System.out.println("Only admin can edit user roles.");
         }
@@ -27,7 +31,7 @@ public class UserService {
 
     // Авторизация
     public UserModel authorize(String email, String password) {
-        UserModel user = uR.getUserByEmail(email); // TODO требуется проверка.
+        UserModel user = uR.getUserByEmail(email);
         if (user != null && user.getPassword().equals(password)) {
             return user;
         }
@@ -37,4 +41,18 @@ public class UserService {
     public UserModel getUserByEmail(String email) {
         return uR.getUserByEmail(email);
     }
+
+    public List<UserModel> getAllUsers() {
+        return uR.getAllUsers();
+    }
+
+    public Map<String, UserModel> getUsers() {
+        return (Map<String, UserModel>) uR.getUsers();
+    }
+
+    public UserModel getUserBy(String userId) {
+        return uR.getUser(userId);
+    }
+
+
 }

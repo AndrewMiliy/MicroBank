@@ -23,6 +23,7 @@ public class BankAccountService {
     public void addBankAccount(String userId, BankAccountModel account) {
 
         bAR.addAccount(userId, account);
+        uR.getUser(userId).addBankAccount(account);
     }
 
     public String checkBalance(BankAccountModel account) {
@@ -49,5 +50,8 @@ public class BankAccountService {
                 .findFirst()
                 .orElse(null);
     }
+
+
+
 
 }

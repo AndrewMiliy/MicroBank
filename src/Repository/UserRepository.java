@@ -3,6 +3,7 @@ package Repository;
 import Model.UserModel;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UserRepository {
@@ -42,7 +43,12 @@ public class UserRepository {
         SaveData();
     }
 
-    private void SaveData() {
+    public void SaveData() {
         DataPersistenceManager.saveData(users, DataPersistenceManager.USER_DATA_FILE);
     }
+
+    public List<UserModel> getAllUsers() {
+        return (List<UserModel>) users.values();
+    }
+
 }

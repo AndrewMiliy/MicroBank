@@ -1,13 +1,11 @@
 package UI;
 
-import Model.BankAccountModel;
-import Model.TransactionModel;
-import Model.UserModel;
-import Model.UserRole;
+import Model.*;
 import Repository.*;
 import Service.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class ConsoleUI_V2 {
@@ -19,6 +17,7 @@ public class ConsoleUI_V2 {
     private ValidationService validationService;
     private Scanner scanner;
     private UserModel currentUser;
+    private UserModel selectedUser;
 
     public ConsoleUI_V2() {
         UserRepository userRepository = new UserRepository();
@@ -118,12 +117,140 @@ public class ConsoleUI_V2 {
 
 
     private void showAdminMenu() { //TODO во второе меню.
+        // 1.Управление пользователями
+        // 2.Управление валютами
+        // 0.Выход из аккаунта
+        while (isUserLoggedIn()) {
+            System.out.println("Админское меню:");
+            System.out.println("1. Управление пользователями \n2. Управление валютами \n0. Выйти из аккаунта");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Очистка буфера сканера
+            switch (choice) {
+                case 1:
+                    usersAdminMenu();
+                    break;
+                case 2:
+                    currencyAdminMenu();
+                    break;
+                case 0:
+                    currentUser = null;
+                    break;
+                default:
+                    System.out.println("Неверная опция.");
+            }
+        }
+    }
+
+
+
+    private void usersAdminMenu() {
+            System.out.println("Меню управления пользователями:");
+            System.out.println("1. Показать список пользователей \n2. Найти пользователя " +
+                    "\n3. Выбор пользователя (по ID) \n4. GODMODE \n5. NOOBMODE \n0. Вернуться");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Очистка буфера сканера
+            switch (choice) {
+                case 1:
+                    userList();
+                    break;
+                case 2:
+                    System.out.println("Введите Email пользователя");
+                    UserModel user = userService.getUserByEmail(scanner.nextLine());
+                    if (user != null) {
+                        System.out.println(user.getId() + ": " + user.getEmail() + " | " + user.getUserRole());
+                    } else {
+                        System.out.println("Пользователь не найден");
+                    }
+                    usersAdminMenu();
+                    break;
+                case 3:
+                    System.out.println("Введите ID пользователя");
+                    selectedUser = userService.getUserBy(scanner.nextLine());
+                    if (selectedUser != null) {
+                        List<BankAccountModel> bankAccountModelList = bankAccountService.getAllAccountsForUser(selectedUser.getId());
+                        for (int i = 0; i < bankAccountModelList.size()-1; i++) {
+                            for (var t : transactionService.getTransactionHistory(bankAccountModelList.get(i).getBankAccountId())) {
+                                System.out.println(t.getTransactionId() + ": " + t.getDate() + " - " + t.getTransactionType() + " - " + t.getCurrencyCode() + ": " + t.getFormattedAmount());
+                            }
+                        }
+                    } else {
+                        System.out.println("Пользователь не найден");
+                    }
+                    break;
+                case 4:
+                    System.out.println("Введите ID пользователя");
+                    selectedUser = userService.getUserBy(scanner.nextLine());
+                    if (selectedUser != null) {
+                        userService.setUserRole(selectedUser, UserRole.ADMIN, currentUser);
+                        System.out.println(selectedUser.getId() + " стал админом");
+                    } else {
+                        System.out.println("Пользователь не найден");
+                    }
+                    break;
+                case 5:
+                    System.out.println("Введите ID пользователя");
+                    selectedUser = userService.getUserBy(scanner.nextLine());
+                    if (selectedUser != null) {
+                        userService.setUserRole(selectedUser, UserRole.USER, currentUser);
+                        System.out.println(selectedUser.getId() + " стал челядью");
+                    } else {
+                        System.out.println("Пользователь не найден");
+                    }
+                    break;
+                case 0:
+                    showAdminMenu();
+                    break;
+                default:
+                    System.out.println("Неверная опция.");
+            }
+
+    }
+    private void currencyAdminMenu() {
+        System.out.println("Меню управления валютами");
+        System.out.println("1. Показать список валют \n2. Добавить валюту " +
+                "\n3. Изменить валюту (по Code) \n4. Просмотр операций по валюте " +
+                "\n5. Удалить валюту (по Code) \n0. Вернуться");
+        int choice = scanner.nextInt();
+        scanner.nextLine(); // Очистка буфера сканера
+        switch (choice) {
+            case 1:
+                currencyList();
+                break;
+            case 2:
+                addCurrency();
+                break;
+            case 3:
+
+                break;
+            case 4:
+                showCurrencyTransactions();
+                break;
+            case 5:
+
+                break;
+            case 0:
+
+                break;
+            default:
+                System.out.println("Неверная опция.");
+        }
+    }
+
+    private void showCurrencyTransactions() {
+
+    }
+
+    private void addCurrency() {
+        System.out.println("Введите код валюты");
+        CurrencyModel newCurrency = new CurrencyModel("", scanner.nextLine());
+        currencyService.addCurrency(currentUser, newCurrency);
+        System.out.println("Валюта успешно создана");
     }
 
     private void showUserMenu() {
         while (isUserLoggedIn()) {
             System.out.println("Пользовательское меню:");
-            System.out.println("1. Мои счета \n2. Курсы валют \n0. Выйти из аккаунта");
+            System.out.println("1. Мои счета \n0. Выйти из аккаунта");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Очистка буфера сканера
             switch (choice) {
@@ -131,13 +258,8 @@ public class ConsoleUI_V2 {
                     showBankAccountsMenu();
                     // Логика просмотра счетов
                     break;
-                case 2:
-                    showCurrencyMenu();
-                    // Логика просмотра валюты
-                    break;
                 case 0:
                     currentUser = null;
-                    auth();
                     break;
                 default:
                     System.out.println("Неверная опция.");
@@ -343,11 +465,34 @@ public class ConsoleUI_V2 {
         return true;
     }
 
-    private void showCurrencyMenu() {
-    }
-
     private boolean isUserLoggedIn () {
         return currentUser != null;
+    }
+
+    private void userList () {
+        var users = userService.getUsers();
+        if (users == null || users.isEmpty()) {
+            System.out.println("Пользователей нет");
+        } else {
+            for (Map.Entry<String, ?> entry : userService.getUsers().entrySet()) {
+                UserModel user = (UserModel)entry.getValue();
+                System.out.println(user.getId() + ": " + user.getEmail() + " | " + user.getUserRole());
+            }
+
+        }
+        usersAdminMenu();
+    }
+    private void currencyList () {
+        var allCurrency = currencyService.getAllCurrencies();
+        if (allCurrency == null || allCurrency.isEmpty()) {
+            System.out.println("Валют нет");
+        } else {
+            System.out.println("Список валют");
+            for (var i : allCurrency) {
+                System.out.println(i.getCodeName());
+            }
+        }
+        currencyAdminMenu();
     }
 
     // Дополнительные методы для других операций
