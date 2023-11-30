@@ -46,7 +46,7 @@ public class DataPersistenceManager {
                 type = new TypeToken<Map<String, CurrencyModel>>() {}.getType();
                 break;
             case EXCHANGE_RATE_DATA_FILE:
-                type = new TypeToken<Map<String, ExchangeRateModel>>() {}.getType();
+                type = new TypeToken<Map<String, List<ExchangeRateModel>>>() {}.getType();
                 break;
             default:
                 throw new IllegalArgumentException("Неизвестный тип файла: " + fileName);

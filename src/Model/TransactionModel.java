@@ -83,4 +83,8 @@ public class TransactionModel  implements Serializable {
                 ", transactionType='" + transactionType + '\'' +
                 '}';
     }
+
+    public Object getTransactionType() {
+        return transactionType;
+    }
 }

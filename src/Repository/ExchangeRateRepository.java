@@ -17,9 +17,14 @@ public class ExchangeRateRepository {
     // Получение текущего курса обмена
     public ExchangeRateModel getCurrentExchangeRate(String currencyFrom, String currencyTo) {
         String key = createKey(currencyFrom, currencyTo);
-        return exchangeRates.getOrDefault(key, new ArrayList<>()).stream()
+        var rate = exchangeRates.getOrDefault(key, new ArrayList<>()).stream()
                 .max(Comparator.comparing(ExchangeRateModel::getTimestamp))
                 .orElse(null);
+        if(rate == null) {
+            rate = new ExchangeRateModel(currencyFrom, currencyTo, 1.0);
+            addExchangeRate(rate);
+        }
+        return rate;
     }
 
     // Получение истории курсов обмена

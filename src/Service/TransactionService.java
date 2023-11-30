@@ -39,6 +39,8 @@ public class TransactionService {
                             amount,
                             account.getCurrencyCode(),
                             TransactionType.DEPOSIT));
+            System.out.println("Пополнение счета: " + amount + " " + account.getCurrencyCode());
+            System.out.println("Остаток на счете: " + account.getBalance() + " " + account.getCurrencyCode());
             return true;
         } catch (Exception e) {
             System.err.println("Ошибка при пополнении счета: " + e.getMessage());
@@ -67,6 +69,8 @@ public class TransactionService {
                             amount,
                             account.getCurrencyCode(),
                             TransactionType.WITHDRAW));
+            System.out.println("Снятие средств: " + amount + " " + account.getCurrencyCode());
+            System.out.println("Остаток на счете: " + account.getBalance() + " " + account.getCurrencyCode());
             return true;
         } catch (Exception e) {
             System.err.println("Ошибка при снятии средств: " + e.getMessage());
@@ -94,6 +98,9 @@ public class TransactionService {
 
             withdraw(fromAccountId, amount);
             deposit(toAccountId, convertedAmount);
+            System.out.println("Обмен валют: " + amount + " " + fromAccount.getCurrencyCode() + " -> " + convertedAmount + " " + toAccount.getCurrencyCode());
+            System.out.println("Остаток на счете: " + fromAccount.getBalance() + " " + fromAccount.getCurrencyCode());
+            System.out.println("Остаток на счете: " + toAccount.getBalance() + " " + toAccount.getCurrencyCode());
             return true;
         } catch (Exception e) {
             System.err.println("Ошибка при обмене валют: " + e.getMessage());

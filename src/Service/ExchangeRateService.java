@@ -16,8 +16,15 @@ public class ExchangeRateService {
         var exchangeRate = exchangeRateRepository.getCurrentExchangeRate(currencyFrom, currencyTo);
 
         if(exchangeRate == null) {
-            exchangeRate = new ExchangeRateModel(currencyFrom, currencyTo, 1.0);
-            addExchangeRate(exchangeRate);
+            ExchangeRateModel exchangeRateTMP = exchangeRateRepository.getCurrentExchangeRate(currencyTo, currencyFrom);
+            if(exchangeRateTMP != null) {
+                exchangeRate = new ExchangeRateModel(currencyFrom, currencyTo, 1.0 / exchangeRateTMP.getRate());
+                addExchangeRate(exchangeRate);
+            }
+            else {
+                exchangeRate = new ExchangeRateModel(currencyFrom, currencyTo, 1.0);
+                addExchangeRate(exchangeRate);
+            }
         }
         return exchangeRate;
     }

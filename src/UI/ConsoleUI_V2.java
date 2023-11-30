@@ -180,8 +180,6 @@ public class ConsoleUI_V2 {
         }
     }
 
-
-
     private void showBankAccountMenu(BankAccountModel bankAccount) {
         System.out.println(bankAccount.getCurrencyCode() + ": " + bankAccount.getBalance());
         while (isUserLoggedIn()) {
@@ -205,7 +203,7 @@ public class ConsoleUI_V2 {
                     }
                     break;
                 case 3:
-                    if(transfer(bankAccount)) {
+                    if(!transfer(bankAccount)) {
                         System.out.println("Не получилось сделать transfer, попробуйте ещё раз.");
                     } else {
                         System.out.println("Валюта успешно переведена");
@@ -215,7 +213,7 @@ public class ConsoleUI_V2 {
                     historyBankAccount(bankAccount);
                     break;
                 case 5:
-                    if (deleteBankAccount(bankAccount)) {
+                    if (!deleteBankAccount(bankAccount)) {
                         System.out.println("Не получилось сделать delete, попробуйте ещё раз.");
                     } else {
                         System.out.println("Счет успешно удалён");
@@ -227,6 +225,7 @@ public class ConsoleUI_V2 {
             }
         }
     }
+
     private boolean deposit(BankAccountModel bankAccount) {
         System.out.println("Введите сумму для deposit кратную единице");
         String input = scanner.nextLine(); // Используем nextLine для считывания всей строки ввода
@@ -244,13 +243,12 @@ public class ConsoleUI_V2 {
     }
 
     private boolean withdraw(BankAccountModel bankAccount) {
-        System.out.println("Введите сумму для deposit кратную единице");
+        System.out.println("Введите сумму для снятия кратную единице");
         String input = scanner.nextLine(); // Используем nextLine для считывания всей строки ввода
-        scanner.nextLine(); // Очистка буфера сканера
 
         try {
-            int depositAmount = Integer.parseInt(input); // Попытка преобразовать строку в число
-            return transactionService.deposit(bankAccount.getBankAccountId(), depositAmount);
+            int withdrawAmount = Integer.parseInt(input); // Попытка преобразовать строку в число
+            return transactionService.withdraw(bankAccount.getBankAccountId(), withdrawAmount);
         } catch (NumberFormatException e) {
             System.out.println("Ошибка при вводе суммы: Введено не число.");
             return false;
@@ -259,7 +257,6 @@ public class ConsoleUI_V2 {
             return false;
         }
     }
-
 
     private boolean transfer(BankAccountModel bankAccount) {
         System.out.println("На какой счет переводим?");
@@ -275,6 +272,7 @@ public class ConsoleUI_V2 {
         scanner.nextLine(); // Очистка буфера сканера
         return transactionService.exchangeCurrency(bankAccount.getBankAccountId(), bankAccountService.getAccountByUserIdAndCurrencyCode(currentUser.getId(), accountTo).getBankAccountId(), transfer);
     }
+
     private void historyBankAccount(BankAccountModel bankAccount) {
         List<TransactionModel> history = transactionService.getTransactionHistory(bankAccount.getBankAccountId());
         if (history == null || (long) history.size() == 0) {
@@ -282,14 +280,14 @@ public class ConsoleUI_V2 {
         } else {
             System.out.println("История счёта");
             for (var i : history) {
-                System.out.println(i.getDate() + " - " + i.getCurrencyCode() + ": " + i.getAmount());
+                System.out.println(i.getDate() + " - " + i.getTransactionType() + " - " + i.getCurrencyCode() + ": " + i.getAmount());
             }
         }
-        System.out.println("Введите любое значение для продолжения");
-        String pressAnyKey = scanner.nextLine();
+        System.out.println("Нажмите ввод для продолжения");
         scanner.nextLine(); // Очистка буфера сканера
         showBankAccountMenu(bankAccount);
     }
+
     private boolean deleteBankAccount(BankAccountModel bankAccount) {
         while (bankAccount.getBalance() > 0) {
             System.out.println("У вас на счету есть деньги, если вы продолжите вы их потеряете.");
@@ -343,7 +341,6 @@ public class ConsoleUI_V2 {
     }
 
     private void showCurrencyMenu() {
-
     }
 
     private boolean isUserLoggedIn () {
