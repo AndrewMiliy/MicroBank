@@ -2,9 +2,14 @@ package Model;
 
 import Service.IDCounterService;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 
-public class UserModel {
+public class UserModel implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L; // Опционально, но рекомендуется
+
     private String firstName;
     private String lastName;
     private String password;
@@ -12,9 +17,9 @@ public class UserModel {
     private List<String> bankAccountId;
     private String id;
     private UserRole userRole;
-    public UserModel(String firstName, String lastName, String password, String email) {
+    public UserModel(String firstName, String lastName, String password, String email, UserRole userRole) {
         this.id = IDCounterService.getNextUserId();
-        this.userRole = UserRole.USER;
+        this.userRole = userRole;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;

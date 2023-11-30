@@ -10,8 +10,9 @@ import java.util.Map;
 public class BankAccountRepository {
     private Map<String, List<BankAccountModel>> accounts = new HashMap<>();
 
-    public void addAccount(String userId, BankAccountModel account) {
+    public void addAccount(String userId, BankAccountModel account)  {
         accounts.computeIfAbsent(userId, k -> new ArrayList<>()).add(account);
+        SaveData();
     }
 
     public List<BankAccountModel> getAccountsByUser(String userId) {
@@ -20,6 +21,7 @@ public class BankAccountRepository {
 
     public void deleteAccount(String userId, String accountId) {
         accounts.getOrDefault(userId, new ArrayList<>()).removeIf(account -> account.getBankAccountId().equals(accountId));
+        SaveData();
     }
 
     public BankAccountModel getAccount(String accountId) {
@@ -38,8 +40,22 @@ public class BankAccountRepository {
                 .ifPresent(a -> {
                     a.setBalance(account.getBalance());
                 });
+        SaveData();
     }
     public List<BankAccountModel> getAllAccountsForUser(String userId) {
         return accounts.getOrDefault(userId, new ArrayList<>());
+    }
+
+    public Map<String,?> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(Map<String,?> accounts) {
+        this.accounts = (Map<String, List<BankAccountModel>>) accounts;
+        SaveData();
+    }
+
+    private void SaveData() {
+        DataPersistenceManager.saveData(accounts, DataPersistenceManager.ACCOUNT_DATA_FILE);
     }
 }

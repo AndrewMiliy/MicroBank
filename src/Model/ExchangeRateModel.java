@@ -1,12 +1,16 @@
 package Model;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Date;
 
-public class ExchangeRateModel {
+public class ExchangeRateModel implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private String currencyFrom; // Исходная валюта
     private String currencyTo;   // Целевая валюта
     private Date timestamp;           // Дата курса
-    private double rate;         // Курс обмена
+    private double rate = 1;         // Курс обмена
 
     // Конструкторы, геттеры и сеттеры
     public ExchangeRateModel(String currencyFrom, String currencyTo, double rate) {

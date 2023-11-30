@@ -11,6 +11,7 @@ public class CurrencyRepository {
 
     public void addCurrency(CurrencyModel currency) {
         currencies.put(currency.getCodeName(), currency);
+        SaveData();
     }
 
     public CurrencyModel getCurrency(String code) {
@@ -19,14 +20,28 @@ public class CurrencyRepository {
 
     public void updateCurrency(String code, CurrencyModel currency) {
         currencies.put(code, currency);
+        SaveData();
     }
 
     public void deleteCurrency(String code) {
         currencies.remove(code);
+        SaveData();
     }
 
     public List<CurrencyModel> getAllCurrencies() {
         return List.copyOf(currencies.values());
     }
 
+    public Map<String,?> getCurrencies() {
+        return currencies;
+    }
+
+    public void setCurrencies(Map<String,?> currencies) {
+        this.currencies = (Map<String, CurrencyModel>) currencies;
+        SaveData();
+    }
+
+    private void SaveData() {
+        DataPersistenceManager.saveData(currencies, DataPersistenceManager.CURRENCY_DATA_FILE);
+    }
 }

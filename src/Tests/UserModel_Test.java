@@ -1,11 +1,15 @@
 package Tests;
 
 import Model.UserModel;
+import Model.UserRole;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class UserModel_Test {
 
@@ -14,7 +18,7 @@ public class UserModel_Test {
     @Before
     public void setUp() {
 
-        user = new UserModel("John", "Doe", "strongPassword", "john.doe@example.com");
+        user = new UserModel("John", "Doe", "strongPassword", "john.doe@example.com", UserRole.USER);
     }
 
     @Test

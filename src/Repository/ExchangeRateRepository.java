@@ -11,6 +11,7 @@ public class ExchangeRateRepository {
     public void addExchangeRate(ExchangeRateModel exchangeRate) {
         String key = createKey(exchangeRate.getCurrencyFrom(), exchangeRate.getCurrencyTo());
         exchangeRates.computeIfAbsent(key, k -> new ArrayList<>()).add(exchangeRate);
+        SaveData();
     }
 
     // Получение текущего курса обмена
@@ -35,6 +36,19 @@ public class ExchangeRateRepository {
     private void updateExchangeRate(ExchangeRateModel exchangeRate) {
         String key = createKey(exchangeRate.getCurrencyFrom(), exchangeRate.getCurrencyTo());
         exchangeRates.computeIfAbsent(key, k -> new ArrayList<>()).add(exchangeRate);
+        SaveData();
     }
 
+    public Map<String,?> getExchangeRates() {
+        return exchangeRates;
+    }
+
+    public void setExchangeRates(Map<String,?> exchangeRates) {
+        this.exchangeRates = (Map<String, List<ExchangeRateModel>>) exchangeRates;
+        SaveData();
+    }
+
+    private void SaveData() {
+        DataPersistenceManager.saveData(exchangeRates, DataPersistenceManager.EXCHANGE_RATE_DATA_FILE);
+    }
 }

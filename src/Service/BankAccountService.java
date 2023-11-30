@@ -21,7 +21,8 @@ public class BankAccountService {
     }
 
     public void addBankAccount(String userId, BankAccountModel account) {
-            bAR.addAccount(userId, account);
+
+        bAR.addAccount(userId, account);
     }
 
     public String checkBalance(BankAccountModel account) {
@@ -40,6 +41,13 @@ public class BankAccountService {
 
     public BankAccountModel getAccount(String accountId) {
         return bAR.getAccount(accountId);
+    }
+
+    public BankAccountModel getAccountByUserIdAndCurrencyCode(String userId, String currencyCode) {
+        return bAR.getAllAccountsForUser(userId).stream()
+                .filter(account -> account.getCurrencyCode().equals(currencyCode))
+                .findFirst()
+                .orElse(null);
     }
 
 }

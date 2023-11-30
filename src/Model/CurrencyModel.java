@@ -1,6 +1,11 @@
 package Model;
 
-public class CurrencyModel { //валюты
+import java.io.Serial;
+import java.io.Serializable;
+
+public class CurrencyModel  implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private String name; // название
     private String codeName; // аббревиатура
 

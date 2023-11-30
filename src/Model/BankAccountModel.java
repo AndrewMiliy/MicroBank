@@ -1,8 +1,11 @@
 package Model;
 
-import java.util.List;
+import java.io.Serial;
+import java.io.Serializable;
 
-public class BankAccountModel {
+public class BankAccountModel implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private String bankAccountId; //номер счета
     private String userId; //айдишник пользователя
     private final String currencyCode; //валюта счета

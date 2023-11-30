@@ -1,8 +1,12 @@
 package Model;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Date;
 
-public class TransactionModel {
+public class TransactionModel  implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private String transactionId; // Уникальный идентификатор транзакции
     private String accountId;     // Идентификатор счета
     private Date date;            // Дата транзакции

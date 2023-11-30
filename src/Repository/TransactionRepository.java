@@ -13,6 +13,7 @@ public class TransactionRepository {
     // Добавление транзакции
     public void addTransaction(String accountId, TransactionModel transaction) {
         transactionsByAccount.computeIfAbsent(accountId, k -> new ArrayList<>()).add(transaction);
+        SaveData();
     }
 
     // Получение всех транзакций по идентификатору счета
@@ -44,6 +45,7 @@ public class TransactionRepository {
                 }
             }
         }
+        SaveData();
     }
 
     // Удаление транзакции
@@ -52,6 +54,7 @@ public class TransactionRepository {
         if (transactions != null) {
             transactions.removeIf(transaction -> transaction.getTransactionId().equals(transactionId));
         }
+        SaveData();
     }
 
     // Получение всех транзакций
@@ -75,5 +78,18 @@ public class TransactionRepository {
             }
         }
         return filteredTransactions;
+    }
+
+    public Map<String,?> getTransactions() {
+        return transactionsByAccount;
+    }
+
+    public void setTransactions(Map<String,?> transactions) {
+        this.transactionsByAccount = (Map<String, List<TransactionModel>>) transactions;
+        SaveData();
+    }
+
+    private void SaveData() {
+        DataPersistenceManager.saveData(transactionsByAccount, DataPersistenceManager.TRANSACTION_DATA_FILE);
     }
 }
