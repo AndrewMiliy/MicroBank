@@ -20,7 +20,7 @@ public class UserService {
     }
 
     public UserModel register(String firstName, String lastName, String password, String email) {
-        UserModel newUser = new UserModel(firstName, lastName, password, email, uR.getUsers().size()>0?UserRole.USER:UserRole.ADMIN);
+        UserModel newUser = new UserModel(IDCounterService.getNextUserId(), firstName, lastName, password, email, uR.getUsers().size()>0?UserRole.USER:UserRole.ADMIN);
         uR.addUser(newUser);
         return newUser;
     }

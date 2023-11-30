@@ -87,4 +87,8 @@ public class TransactionModel  implements Serializable {
     public Object getTransactionType() {
         return transactionType;
     }
+
+    public String getFormattedAmount() {
+        return String.format("%.2f", amount);
+    }
 }

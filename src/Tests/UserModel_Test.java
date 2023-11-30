@@ -2,6 +2,7 @@ package Tests;
 
 import Model.UserModel;
 import Model.UserRole;
+import Service.IDCounterService;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,7 +19,7 @@ public class UserModel_Test {
     @Before
     public void setUp() {
 
-        user = new UserModel("John", "Doe", "strongPassword", "john.doe@example.com", UserRole.USER);
+        user = new UserModel(IDCounterService.getNextUserId(),"John", "Doe", "strongPassword", "john.doe@example.com", UserRole.USER);
     }
 
     @Test

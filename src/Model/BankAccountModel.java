@@ -29,6 +29,10 @@ public class BankAccountModel implements Serializable {
         return balance;
     }
 
+    public String getFormattedBalance() {
+        return String.format("%.2f", balance);
+    }
+
     public String getUserId() {
         return userId;
     }

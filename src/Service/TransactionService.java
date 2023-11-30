@@ -1,12 +1,7 @@
 package Service;
 
-import Model.BankAccountModel;
-import Model.ExchangeRateModel;
-import Model.TransactionModel;
-import Model.TransactionType;
-import Repository.BankAccountRepository;
-import Repository.ExchangeRateRepository;
-import Repository.TransactionRepository;
+import Model.*;
+import Repository.*;
 
 import java.time.Instant;
 import java.util.Date;
@@ -40,7 +35,7 @@ public class TransactionService {
                             account.getCurrencyCode(),
                             TransactionType.DEPOSIT));
             System.out.println("Пополнение счета: " + amount + " " + account.getCurrencyCode());
-            System.out.println("Остаток на счете: " + account.getBalance() + " " + account.getCurrencyCode());
+            System.out.println("Остаток на счете: " + account.getFormattedBalance() + " " + account.getCurrencyCode());
             return true;
         } catch (Exception e) {
             System.err.println("Ошибка при пополнении счета: " + e.getMessage());
@@ -70,7 +65,7 @@ public class TransactionService {
                             account.getCurrencyCode(),
                             TransactionType.WITHDRAW));
             System.out.println("Снятие средств: " + amount + " " + account.getCurrencyCode());
-            System.out.println("Остаток на счете: " + account.getBalance() + " " + account.getCurrencyCode());
+            System.out.println("Остаток на счете: " + account.getFormattedBalance() + " " + account.getCurrencyCode());
             return true;
         } catch (Exception e) {
             System.err.println("Ошибка при снятии средств: " + e.getMessage());
@@ -93,14 +88,14 @@ public class TransactionService {
                 throw new IllegalArgumentException("Недостаточно средств для обмена.");
             }
 
-            ExchangeRateModel rate = exchangeRateRepository.getCurrentExchangeRate(fromAccount.getCurrencyCode(), toAccount.getCurrencyCode());
+            ExchangeRateModel rate = ExchangeRateService.getCurrentExchangeRate(fromAccount.getCurrencyCode(), toAccount.getCurrencyCode());
             double convertedAmount = amount * rate.getRate();
 
             withdraw(fromAccountId, amount);
             deposit(toAccountId, convertedAmount);
-            System.out.println("Обмен валют: " + amount + " " + fromAccount.getCurrencyCode() + " -> " + convertedAmount + " " + toAccount.getCurrencyCode());
-            System.out.println("Остаток на счете: " + fromAccount.getBalance() + " " + fromAccount.getCurrencyCode());
-            System.out.println("Остаток на счете: " + toAccount.getBalance() + " " + toAccount.getCurrencyCode());
+            System.out.println("Обмен валют: " + amount + " " + fromAccount.getCurrencyCode() + " -> " + String.format("%.2f", convertedAmount)  + " " + toAccount.getCurrencyCode());
+            System.out.println("Остаток на счете: " + fromAccount.getFormattedBalance() + " " + fromAccount.getCurrencyCode());
+            System.out.println("Остаток на счете: " + toAccount.getFormattedBalance() + " " + toAccount.getCurrencyCode());
             return true;
         } catch (Exception e) {
             System.err.println("Ошибка при обмене валют: " + e.getMessage());

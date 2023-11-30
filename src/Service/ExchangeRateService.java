@@ -6,13 +6,13 @@ import Repository.ExchangeRateRepository;
 
 public class ExchangeRateService {
 
-    ExchangeRateRepository exchangeRateRepository;
+    static ExchangeRateRepository exchangeRateRepository;
 
     public ExchangeRateService(ExchangeRateRepository exchangeRateRepository) {
         this.exchangeRateRepository = exchangeRateRepository;
     }
 
-    public ExchangeRateModel getCurrentExchangeRate(String currencyFrom, String currencyTo) {
+    public static ExchangeRateModel getCurrentExchangeRate(String currencyFrom, String currencyTo) {
         var exchangeRate = exchangeRateRepository.getCurrentExchangeRate(currencyFrom, currencyTo);
 
         if(exchangeRate == null) {
@@ -29,7 +29,7 @@ public class ExchangeRateService {
         return exchangeRate;
     }
 
-    public void addExchangeRate(ExchangeRateModel exchangeRate) {
+    public static void addExchangeRate(ExchangeRateModel exchangeRate) {
         exchangeRateRepository.addExchangeRate(exchangeRate);
     }
 }
