@@ -338,7 +338,9 @@ public class ConsoleUI_V2 {
             if(bankAccount.getBalance() > 0)
             {
                 System.out.println(brightRed+ "У вас на счету есть деньги. Что бы продолжить удаление переведите их на другой счет."+reset);
-                System.out.println("1. Перевести \n0. Вернуться.");
+                System.out.println("""
+                1. Перевести\s
+                0. Вернуться.""");
                 int choice = scanner.nextInt();
                 scanner.nextLine(); // Очистка буфера сканера
                 switch (choice){
@@ -439,8 +441,11 @@ public class ConsoleUI_V2 {
 
     private void showAdminMenu() {
         while (isUserLoggedIn()) {
-            System.out.println("Админское меню:");
-            System.out.println("1. Управление пользователями \n2. Управление валютами \n0. Выйти из аккаунта");
+            System.out.println(brightWhite + underline + "Меню администратора:" + reset);
+            System.out.println("""
+                    1. Управление пользователями\s
+                    2. Управление валютами\s
+                    0. Выйти из аккаунта""");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Очистка буфера сканера
             switch (choice) {
@@ -461,8 +466,13 @@ public class ConsoleUI_V2 {
 
     private void usersAdminMenu() {
         System.out.println("Меню управления пользователями:");
-        System.out.println("1. Показать список пользователей \n2. Найти пользователя " +
-                "\n3. Выбор пользователя (по ID) \n4. GODMODE \n5. NOOBMODE \n0. Вернуться");
+        System.out.println("""
+                1. Показать список пользователей\s
+                2. Найти пользователя\s
+                3. Выбор пользователя (по ID)\s
+                4. Назначить администратора\s
+                5. Удалить администратора\s
+                0. Вернуться""");
         int choice = scanner.nextInt();
         scanner.nextLine(); // Очистка буфера сканера
         switch (choice) {
@@ -519,15 +529,18 @@ public class ConsoleUI_V2 {
             default:
                 System.out.println("Неверная опция.");
         }
-
     }
 
     // Методы для работы с валютами
     private void currencyAdminMenu() {
         System.out.println(brightWhite + "Меню управления валютами" + reset);
-        System.out.println("1. Показать список валют \n2. Добавить валюту " +
-                "\n3. Изменить валюту (по Code) \n4. Просмотр операций по валюте " +
-                "\n5. Удалить валюту (по Code) \n0. Вернуться");
+        System.out.println("""
+                1. Показать список валют\s
+                2. Добавить валюту\s
+                3. Изменить валюту (по Code)\s
+                4. Просмотр операций по валюте\s
+                5. Удалить валюту (по Code)\s
+                0. Вернуться""");
         int choice = scanner.nextInt();
         scanner.nextLine(); // Очистка буфера сканера
         switch (choice) {

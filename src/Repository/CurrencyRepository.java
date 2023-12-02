@@ -19,7 +19,10 @@ public class CurrencyRepository {
     }
 
     public void updateCurrency(String code, CurrencyModel currency) {
-        currencies.put(code, currency);
+        //удаление старой валюты
+        deleteCurrency(code);
+        //добавление новой валюты
+        addCurrency(currency);
         SaveData();
     }
 

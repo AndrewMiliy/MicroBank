@@ -1,1 +1,1 @@
-{"46":{"firstName":"qwe","lastName":"qwe","password":"Qwerty1!","email":"qwe@qwe.qwe","bankAccountId":[],"id":"62","userRole":"ADMIN"},"62":{"firstName":"asd","lastName":"asd","password":"Qwerty1!","email":"asd@asd.asd","bankAccountId":[],"id":"62","userRole":"USER"}}
+{"46":{"firstName":"qwe","lastName":"qwe","password":"Qwerty1!","email":"qwe@qwe.qwe","bankAccountId":[],"id":"62","userRole":"ADMIN"},"62":{"firstName":"asd","lastName":"asd","password":"Qwerty1!","email":"asd@asd.asd","bankAccountId":["51","52"],"id":"62","userRole":"USER"}}
