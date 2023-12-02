@@ -61,4 +61,8 @@ public class UserRepository {
         users.get(userId).getBankAccountId().removeIf(account -> account.equals(accountId));
         SaveData();
     }
+
+    public void clearData() {
+        users.clear();
+    }
 }

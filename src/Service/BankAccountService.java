@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class BankAccountService {
-    private UserRepository uR;
+    private static UserRepository uR;
     private static BankAccountRepository bAR;
     private CurrencyRepository cR;
     private TransactionService tS;
@@ -26,7 +26,7 @@ public class BankAccountService {
     }
 
 
-    public void addBankAccount(String userId, BankAccountModel account) {
+    public static void addBankAccount(String userId, BankAccountModel account) {
         bAR.addAccount(userId, account);
         uR.addBankAccount(userId, account);
     }

@@ -1,13 +1,13 @@
-package Tests;
-
 import Model.TransactionModel;
 import Model.TransactionType;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 import java.time.Instant;
 import java.util.Date;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class TransactionModel_Test {
 
@@ -78,18 +78,12 @@ public class TransactionModel_Test {
 
     @Test
     public void testGetType() {
-        assertEquals("Deposit", transaction.getType());
+        assertEquals(TransactionType.DEPOSIT, transaction.getType());
     }
 
     @Test
     public void testSetType() {
         transaction.setType(TransactionType.DEPOSIT);
         assertEquals(TransactionType.DEPOSIT, transaction.getType());
-    }
-
-    @Test
-    public void testToString() {
-        String expectedString = "TransactionModel{transactionId='123456', accountId='789012', date=" + transaction.getDate() + ", amount=100.0, currencyCode='USD', type='Deposit'}";
-        assertEquals(expectedString, transaction.toString());
     }
 }

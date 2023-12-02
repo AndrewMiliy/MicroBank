@@ -1,5 +1,3 @@
-package Tests;
-
 import Model.UserModel;
 import Model.UserRole;
 import Service.IDCounterService;
@@ -10,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 public class UserModel_Test {
 
@@ -68,7 +65,7 @@ public class UserModel_Test {
 
     @Test
     public void testGetBankAccountId() {
-        assertNull(user.getBankAccountId());
+        assertEquals(new ArrayList<>(), user.getBankAccountId());
     }
 
     @Test

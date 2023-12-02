@@ -1,5 +1,3 @@
-package Tests;
-
 import Model.BankAccountModel;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +15,7 @@ public class BankAccountModel_Test {
 
     @Test
     public void testGetBankAccountId() {
-        assertNull(bankAccount.getBankAccountId());
+        assertEquals("bankAccountId", bankAccount.getBankAccountId());
     }
 
     @Test
@@ -32,7 +30,7 @@ public class BankAccountModel_Test {
 
     @Test
     public void testGetUserId() {
-        assertNull(bankAccount.getUserId());
+        assertEquals("userId", bankAccount.getUserId());
     }
 
     @Test

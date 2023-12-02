@@ -1,5 +1,3 @@
-package Tests;
-
 import Model.CurrencyModel;
 import org.junit.Before;
 import org.junit.Test;

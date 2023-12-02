@@ -120,4 +120,12 @@ public class DataPersistenceManager {
             exchangeRateRepository.setExchangeRates(exchangeRates);
         }
     }
+
+    public static void clearAllData() {
+        saveData(null, USER_DATA_FILE);
+        saveData(null, ACCOUNT_DATA_FILE);
+        saveData(null, TRANSACTION_DATA_FILE);
+        saveData(null, CURRENCY_DATA_FILE);
+        saveData(null, EXCHANGE_RATE_DATA_FILE);
+    }
 }

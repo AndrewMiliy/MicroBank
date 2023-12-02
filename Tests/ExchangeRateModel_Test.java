@@ -1,4 +1,3 @@
-package Tests;
 import Model.ExchangeRateModel;
 import org.junit.Before;
 import org.junit.Test;
