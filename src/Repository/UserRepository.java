@@ -1,5 +1,6 @@
 package Repository;
 
+import Model.BankAccountModel;
 import Model.UserModel;
 
 import java.util.HashMap;
@@ -51,4 +52,13 @@ public class UserRepository {
         return (List<UserModel>) users.values();
     }
 
+    public void addBankAccount(String userId, BankAccountModel account) {
+        users.get(userId).getBankAccountId().add(account.getBankAccountId());
+        SaveData();
+    }
+
+    public void deleteBankAccount(String userId, String accountId) {
+        users.get(userId).getBankAccountId().removeIf(account -> account.equals(accountId));
+        SaveData();
+    }
 }

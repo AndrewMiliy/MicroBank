@@ -1,6 +1,6 @@
 package Repository;
 
-import Model.BankAccountModel;
+import Model.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +46,7 @@ public class BankAccountRepository {
         return accounts.getOrDefault(userId, new ArrayList<>());
     }
 
-    public Map<String,?> getAccounts() {
+    public Map<String, List<BankAccountModel>> getAccounts() {
         return accounts;
     }
 
@@ -57,5 +57,18 @@ public class BankAccountRepository {
 
     private void SaveData() {
         DataPersistenceManager.saveData(accounts, DataPersistenceManager.ACCOUNT_DATA_FILE);
+    }
+
+
+    public Map<String, BankAccountModel> getAllAccountsByCurrencyCode(String code) {
+        Map<String, BankAccountModel> filteredAccounts = new HashMap<>();
+        for (List<BankAccountModel> accounts : accounts.values()) {
+            for (BankAccountModel account : accounts) {
+                if (account.getCurrencyCode().equals(code)) {
+                    filteredAccounts.put(account.getBankAccountId(), account);
+                }
+            }
+        }
+        return filteredAccounts;
     }
 }

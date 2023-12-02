@@ -52,4 +52,8 @@ public class ExchangeRateRepository {
     private void SaveData() {
         DataPersistenceManager.saveData(exchangeRates, DataPersistenceManager.EXCHANGE_RATE_DATA_FILE);
     }
+
+    public List<ExchangeRateModel> getExchangeRateHistory(String code) {
+        return exchangeRates.getOrDefault(code, new ArrayList<>());
+    }
 }

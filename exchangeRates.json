@@ -1,1 +1,1 @@
-{"EUR_USD":[{"currencyFrom":"EUR","currencyTo":"USD","rate":1.2}],"EUR_PLN":[{"currencyFrom":"EUR","currencyTo":"PLN","rate":1.0}],"USD_EUR":[{"currencyFrom":"USD","currencyTo":"EUR","rate":0.8333333333333334}],"PLN_USD":[{"currencyFrom":"PLN","currencyTo":"USD","rate":1.0}],"USD_UAH":[{"currencyFrom":"USD","currencyTo":"UAH","rate":1.0}],"UAH_EUR":[{"currencyFrom":"UAH","currencyTo":"EUR","rate":1.0}]}
+{"PLN_EUR":[{"currencyFrom":"PLN","currencyTo":"EUR","rate":1.0}],"EUR_USD":[{"currencyFrom":"EUR","currencyTo":"USD","rate":1.0}]}

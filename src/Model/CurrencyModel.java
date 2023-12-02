@@ -29,4 +29,8 @@ public class CurrencyModel  implements Serializable {
     public void setCodeName(String codeName) {
         this.codeName = codeName;
     }
+
+    public String getCode() {
+        return codeName;
+    }
 }

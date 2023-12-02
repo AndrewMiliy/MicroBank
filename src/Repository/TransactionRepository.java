@@ -92,4 +92,16 @@ public class TransactionRepository {
     private void SaveData() {
         DataPersistenceManager.saveData(transactionsByAccount, DataPersistenceManager.TRANSACTION_DATA_FILE);
     }
+
+    public List<TransactionModel> getAllTransactionsByCurrencyCode(String code) {
+        List<TransactionModel> filteredTransactions = new ArrayList<>();
+        for (List<TransactionModel> transactions : transactionsByAccount.values()) {
+            for (TransactionModel transaction : transactions) {
+                if (transaction.getCurrencyCode().equals(code)) {
+                    filteredTransactions.add(transaction);
+                }
+            }
+        }
+        return filteredTransactions;
+    }
 }

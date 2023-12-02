@@ -8,7 +8,8 @@ public class BankAccountModel implements Serializable {
     private static final long serialVersionUID = 1L;
     private String bankAccountId; //номер счета
     private String userId; //айдишник пользователя
-    private final String currencyCode; //валюта счета
+
+    private String currencyCode; //валюта счета
     private double balance; //баланс счёта
 
     public BankAccountModel(String bankAccountId, String userId, String currencyCode) {
@@ -23,6 +24,10 @@ public class BankAccountModel implements Serializable {
 
     public String getCurrencyCode() {
         return currencyCode;
+    }
+
+    public void setCurrencyCode(String currencyCode) {
+        this.currencyCode = currencyCode;
     }
 
     public double getBalance() {
@@ -48,4 +53,6 @@ public class BankAccountModel implements Serializable {
                 ", Balance=" + balance +
                 '}';
     }
+
+
 }

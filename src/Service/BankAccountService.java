@@ -6,6 +6,7 @@ import Repository.CurrencyRepository;
 import Repository.UserRepository;
 
 import java.util.List;
+import java.util.Map;
 
 public class BankAccountService {
     private UserRepository uR;
@@ -20,10 +21,14 @@ public class BankAccountService {
         this.cR = cR;
     }
 
-    public void addBankAccount(String userId, BankAccountModel account) {
+    public static Map<String, List<BankAccountModel>> getAllAccounts() {
+        return bAR.getAccounts();
+    }
 
+
+    public void addBankAccount(String userId, BankAccountModel account) {
         bAR.addAccount(userId, account);
-        uR.getUser(userId).addBankAccount(account);
+        uR.addBankAccount(userId, account);
     }
 
     public String checkBalance(BankAccountModel account) {
@@ -34,6 +39,7 @@ public class BankAccountService {
 
     public void deleteBankAccount(String userId, String accountId) {
         bAR.deleteAccount(userId, accountId);
+        uR.deleteBankAccount(userId, accountId);
     }
 
     public static List<BankAccountModel> getAllAccountsForUser(String userId) {
@@ -52,6 +58,11 @@ public class BankAccountService {
     }
 
 
-
-
+    public void updateCurrencyInBankAccounts(String code, String newCode) {
+        bAR.getAllAccountsByCurrencyCode(code)
+                .forEach((accountId, account) -> {
+                    account.setCurrencyCode(newCode);
+                    bAR.updateAccount(account);
+                });
+    }
 }

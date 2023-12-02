@@ -1,7 +1,12 @@
 package Service;
 
-import Model.*;
-import Repository.*;
+import Model.BankAccountModel;
+import Model.ExchangeRateModel;
+import Model.TransactionModel;
+import Model.TransactionType;
+import Repository.BankAccountRepository;
+import Repository.ExchangeRateRepository;
+import Repository.TransactionRepository;
 
 import java.time.Instant;
 import java.util.Date;
@@ -17,6 +22,9 @@ public class TransactionService {
         this.transactionRepository = transactionRepository;
         this.exchangeRateRepository = exchangeRateRepository;
     }
+
+
+
 
     // Пополнение счета
     public boolean deposit(String accountId, double amount) {
@@ -111,6 +119,27 @@ public class TransactionService {
         } catch (Exception e) {
             System.err.println("Ошибка при получении истории транзакций: " + e.getMessage());
             return null;
+        }
+    }
+
+    public List<TransactionModel> getAllTransactionsByCurrencyCode(String code) {
+        try {
+            return transactionRepository.getAllTransactionsByCurrencyCode(code);
+        } catch (Exception e) {
+            System.err.println("Ошибка при получении истории транзакций: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public void updateCurrencyInTransactions(String code, String newCode) {
+        try {
+            List<TransactionModel> transactions = transactionRepository.getAllTransactionsByCurrencyCode(code);
+            for (TransactionModel transaction : transactions) {
+                transaction.setCurrencyCode(newCode);
+            }
+            transactionRepository.setTransactions(transactionRepository.getTransactions());
+        } catch (Exception e) {
+            System.err.println("Ошибка при обновлении валюты в транзакциях: " + e.getMessage());
         }
     }
 }

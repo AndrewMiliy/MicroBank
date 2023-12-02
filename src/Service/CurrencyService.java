@@ -8,7 +8,7 @@ import Repository.CurrencyRepository;
 import java.util.List;
 
 public class CurrencyService {
-    private CurrencyRepository cR;
+    private static CurrencyRepository cR;
 
     public CurrencyService(CurrencyRepository cR) {
         this.cR = cR;
@@ -34,7 +34,7 @@ public class CurrencyService {
             System.out.println("Только администратор может изменять валюту.");
         }
     }
-    public List<CurrencyModel> getAllCurrencies() {
+    public static List<CurrencyModel> getAllCurrencies() {
         return cR.getAllCurrencies();
     }
     public CurrencyModel getCurrency(String code) {
