@@ -7,6 +7,7 @@ import Model.TransactionType;
 import Repository.BankAccountRepository;
 import Repository.ExchangeRateRepository;
 import Repository.TransactionRepository;
+import UI.Styles;
 
 import java.time.Instant;
 import java.util.Date;
@@ -16,6 +17,32 @@ public class TransactionService {
     private BankAccountRepository bankAccountRepository;
     private TransactionRepository transactionRepository;
     private ExchangeRateRepository exchangeRateRepository;
+
+    //region ANSI Styles =====
+
+    private static final String dimRed = Styles.dimRed;
+    private static final String dimGreen = Styles.dimGreen;
+    private static final String Olive = Styles.Olive;
+    private static final String dimBlue = Styles.dimBlue;
+    private static final String dimPurple = Styles.dimPurple;
+    private static final String dimCyan = Styles.dimCyan;
+    private static final String dimWhite = Styles.dimWhite;
+
+
+    private static final String brightRed = Styles.brightRed;
+    private static final String brightGreen = Styles.brightGreen;
+    private static final String brightYellow = Styles.brightYellow;
+    private static final String brightBlue = Styles.brightBlue;
+    private static final String brightPurple = Styles.brightPurple;
+    private static final String brightCyan = Styles.brightCyan;
+    private static final String brightWhite = Styles.brightWhite;
+
+    public static final String bold = Styles.bold;
+    public static final String underline = Styles.underline;
+
+    private static final String reset = Styles.reset;
+
+    //endregion ANSI Styles =====
 
     public TransactionService(BankAccountRepository bankAccountRepository, TransactionRepository transactionRepository, ExchangeRateRepository exchangeRateRepository) {
         this.bankAccountRepository = bankAccountRepository;
@@ -42,11 +69,11 @@ public class TransactionService {
                             amount,
                             account.getCurrencyCode(),
                             TransactionType.DEPOSIT));
-            System.out.println("Пополнение счета: " + amount + " " + account.getCurrencyCode());
-            System.out.println("Остаток на счете: " + account.getFormattedBalance() + " " + account.getCurrencyCode());
+            System.out.println("Пополнение счета: " +brightGreen+ amount +reset+ " " + account.getCurrencyCode());
+            System.out.println("Остаток на счете: " +brightGreen+  account.getFormattedBalance()+reset + " " + account.getCurrencyCode());
             return true;
         } catch (Exception e) {
-            System.err.println("Ошибка при пополнении счета: " + e.getMessage());
+            System.err.println(brightRed+"Ошибка при пополнении счета: "+reset + e.getMessage());
             return false;
         }
     }
@@ -117,7 +144,7 @@ public class TransactionService {
         try {
             return transactionRepository.getTransactionsByAccount(accountId);
         } catch (Exception e) {
-            System.err.println("Ошибка при получении истории транзакций: " + e.getMessage());
+            System.err.println( "Ошибка при получении истории транзакций: " + e.getMessage());
             return null;
         }
     }
