@@ -195,16 +195,46 @@ public class ConsoleUI_V2 {
             System.out.println(brightWhite +underline+"Меню управления счетами"+reset);
             bankAccounts = BankAccountService.getAllAccountsForUser(currentUser.getId());
             for (var i : bankAccounts) {
+                if(currencyService.getCurrency(i.getCurrencyCode()) != null)
+                {
                 System.out.println(brightWhite + i.getCurrencyCode() + ": " + brightGreen+ i.getFormattedBalance()+reset);
+                }
+                else {
+                    while (bankAccountService.getAccountByUserIdAndCurrencyCode(currentUser.getId(), i.getCurrencyCode()) != null) {
+                        System.out.println(brightPurple + "Эта валюта была удалена" + reset);
+                        System.out.println(brightRed + i.getCurrencyCode() + ": " + brightRed + i.getFormattedBalance() + reset);
+                        System.out.println(brightYellow + "Выберите опцию:" + reset);
+                        System.out.println("""
+                                1. Удалить счет\s 
+                                0. Вернуться в предыдущее меню
+                                """);
+                        String choice = scanner.nextLine();
+                        switch (choice) {
+                            case "1":
+                                if (!deleteBankAccount(i)) {
+                                    System.out.println(brightRed + "Не получилось удалить счет, попробуйте ещё раз." + reset);
+                                }
+                                showBankAccountsMenu();
+
+                                break;
+                            case "0":
+                                showUserMenu(); //Возвращение в предыдущее меню
+                                break;
+                            default:
+                                System.out.println(brightRed + "Счета с таким кодом не найдено или неверная опция. Попробуйте ещё раз." + reset);
+                                break;
+                        }
+                    }
+                }
             }
             System.out.println(!bankAccounts.isEmpty() ?
                     brightYellow + "Что бы выбрать счет, введите код счета" + reset:
                     brightYellow + "Счетов еще нет. Вы можете его создать" + reset);
-            System.out.println("2. Создать счет \n0. Вернуться в предыдущее меню");
+            System.out.println("1. Создать счет \n0. Вернуться в предыдущее меню");
             String choice = scanner.nextLine();
 
             switch (choice) {
-                case "2":
+                case "1":
                     if (!createBankAccountMenu()) {
                         System.out.println(brightRed + "Не получилось создать счет, попробуйте ещё раз." + reset);
                     }
@@ -374,12 +404,15 @@ public class ConsoleUI_V2 {
                 System.out.println(brightRed+ "У вас на счету есть деньги. Что бы продолжить удаление переведите их на другой счет."+reset);
                 System.out.println("""
                 1. Перевести\s
+                2. Вывести\s
                 0. Вернуться.""");
                 int choice = scanner.nextInt();
                 scanner.nextLine(); // Очистка буфера сканера
                 switch (choice){
                     case 1:
                         break;
+                    case 2:
+                        return withdraw(bankAccount);
                     case 0:
                         return false;
                 }
@@ -387,6 +420,21 @@ public class ConsoleUI_V2 {
             else {
                 bankAccountService.deleteBankAccount(currentUser.getId(), bankAccount.getBankAccountId());
                 return true;
+            }
+            if(currentUser.getBankAccountId().size()<=1)
+            {
+                System.out.println(brightRed+ "У вас нет других счетов. Что бы продолжить удаление создайте новый счет."+reset);
+                System.out.println("""
+                1. Создать счет\s
+                0. Вернуться.""");
+                int choice = scanner.nextInt();
+                scanner.nextLine(); // Очистка буфера сканера
+                switch (choice){
+                    case 1:
+                        createBankAccountMenu();
+                    case 0:
+                        return false;
+                }
             }
             System.out.println("На какой счет их перевести?");
             for (var i : BankAccountService.getAllAccountsForUser(currentUser.getId())) {
@@ -594,14 +642,30 @@ public class ConsoleUI_V2 {
                 showCurrencyTransactions();
                 break;
             case 5:
-
+                deleteCurrency();
                 break;
             case 0:
-
+                showAdminMenu();
                 break;
             default:
                 System.out.println("Неверная опция.");
         }
+    }
+
+    private void deleteCurrency() {
+        System.out.println(brightWhite + underline + "Меню удаления валюты:" + reset);
+        System.out.println("Доступные валюты:");
+        showCurrencyList();
+        System.out.println(brightYellow + "Введите код валюты:" + reset);
+        String code = scanner.nextLine();
+        CurrencyModel currency = currencyService.getCurrency(code);
+        if (currency == null) {
+            System.out.println(brightRed + "Валюты с таким кодом не существует" + reset);
+        } else {
+            currencyService.deleteCurrency(currentUser, code);
+            System.out.println(brightGreen + "Валюта успешно удалена" + reset);
+        }
+        currencyAdminMenu();
     }
 
     private void updateCurrency() {
@@ -701,11 +765,8 @@ public class ConsoleUI_V2 {
 
     // Дополнительные методы для других операций
     public static void main(String[] args)  {
-
         // Инициализация и запуск UI
         ConsoleUI_V2 consoleUI = new ConsoleUI_V2();
         consoleUI.auth();
-
-
     }
 }
