@@ -85,10 +85,10 @@ public class TransactionService {
         try {
             BankAccountModel account = bankAccountRepository.getAccount(accountId);
             if (account == null) {
-                throw new IllegalArgumentException("Счет не найден: " + accountId);
+                throw new IllegalArgumentException(brightRed+"Счет не найден: " + accountId+reset);
             }
             if (account.getBalance() < amount) {
-                throw new IllegalArgumentException("Недостаточно средств на счете.");
+                throw new IllegalArgumentException(brightRed+"Недостаточно средств на счете."+reset);
             }
             account.setBalance(account.getBalance() - amount);
             bankAccountRepository.updateAccount(account);
@@ -99,11 +99,11 @@ public class TransactionService {
                             amount,
                             account.getCurrencyCode(),
                             TransactionType.WITHDRAW));
-            System.out.println("Снятие средств: " + amount + " " + account.getCurrencyCode());
-            System.out.println("Остаток на счете: " + account.getFormattedBalance() + " " + account.getCurrencyCode());
+            System.out.println("Снятие средств: " + dimRed+amount + reset+" " + account.getCurrencyCode());
+            System.out.println("Остаток на счете: " +dimGreen+ account.getFormattedBalance() +reset+ " " + account.getCurrencyCode());
             return true;
         } catch (Exception e) {
-            System.err.println("Ошибка при снятии средств: " + e.getMessage());
+            System.err.println(brightRed+"Ошибка при снятии средств: " +reset+ e.getMessage());
             return false;
         }
     }
@@ -117,10 +117,10 @@ public class TransactionService {
             BankAccountModel toAccount = bankAccountRepository.getAccount(toAccountId);
 
             if (fromAccount == null || toAccount == null) {
-                throw new IllegalArgumentException("Один из счетов не найден.");
+                throw new IllegalArgumentException(brightRed+"Один из счетов не найден.");
             }
             if (fromAccount.getBalance() < amount) {
-                throw new IllegalArgumentException("Недостаточно средств для обмена.");
+                throw new IllegalArgumentException(brightRed+"Недостаточно средств для обмена.");
             }
 
             ExchangeRateModel rate = ExchangeRateService.getCurrentExchangeRate(fromAccount.getCurrencyCode(), toAccount.getCurrencyCode());
@@ -129,11 +129,11 @@ public class TransactionService {
             withdraw(fromAccountId, amount);
             deposit(toAccountId, convertedAmount);
             System.out.println("Обмен валют: " + amount + " " + fromAccount.getCurrencyCode() + " -> " + String.format("%.2f", convertedAmount)  + " " + toAccount.getCurrencyCode());
-            System.out.println("Остаток на счете: " + fromAccount.getFormattedBalance() + " " + fromAccount.getCurrencyCode());
-            System.out.println("Остаток на счете: " + toAccount.getFormattedBalance() + " " + toAccount.getCurrencyCode());
+            System.out.println("Остаток на счете: " +dimGreen+ fromAccount.getFormattedBalance() +reset+ " " + fromAccount.getCurrencyCode());
+            System.out.println("Остаток на счете: " +dimGreen+ toAccount.getFormattedBalance() +reset+ " " + toAccount.getCurrencyCode());
             return true;
         } catch (Exception e) {
-            System.err.println("Ошибка при обмене валют: " + e.getMessage());
+            System.err.println(brightRed+"Ошибка при обмене валют: " +reset+ e.getMessage());
             return false;
         }
     }
@@ -144,7 +144,7 @@ public class TransactionService {
         try {
             return transactionRepository.getTransactionsByAccount(accountId);
         } catch (Exception e) {
-            System.err.println( "Ошибка при получении истории транзакций: " + e.getMessage());
+            System.err.println( brightRed+"Ошибка при получении истории транзакций: "+reset + e.getMessage());
             return null;
         }
     }
@@ -153,7 +153,7 @@ public class TransactionService {
         try {
             return transactionRepository.getAllTransactionsByCurrencyCode(code);
         } catch (Exception e) {
-            System.err.println("Ошибка при получении истории транзакций: " + e.getMessage());
+            System.err.println(brightRed+"Ошибка при получении истории транзакций: " +reset+ e.getMessage());
             return null;
         }
     }
@@ -166,7 +166,7 @@ public class TransactionService {
             }
             transactionRepository.setTransactions(transactionRepository.getTransactions());
         } catch (Exception e) {
-            System.err.println("Ошибка при обновлении валюты в транзакциях: " + e.getMessage());
+            System.err.println(brightRed+"Ошибка при обновлении валюты в транзакциях: "+reset + e.getMessage());
         }
     }
 }
