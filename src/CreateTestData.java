@@ -96,8 +96,8 @@ public class CreateTestData {
         CurrencyRepository currencyRepository = new CurrencyRepository();
 
         userService = new UserService(userRepository);
-        bankAccountService = new BankAccountService(userRepository, bankAccountRepository, currencyRepository);
-        transactionService = new TransactionService(bankAccountRepository, transactionRepository, exchangeRateRepository);
+        bankAccountService = new BankAccountService(userRepository, bankAccountRepository);
+        transactionService = new TransactionService(bankAccountRepository, transactionRepository);
         currencyService = new CurrencyService(currencyRepository);
         exchangeRateService = new ExchangeRateService(exchangeRateRepository);
         validationService = new ValidationService();

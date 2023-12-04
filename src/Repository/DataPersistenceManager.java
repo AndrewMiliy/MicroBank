@@ -62,28 +62,6 @@ public class DataPersistenceManager {
         }
     }
 
-   /* // Сохранение данных в файл
-    public static void saveData(Map<String, ?> data, String fileName) {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName))) {
-            out.writeObject(data);
-        } catch (IOException e) {
-            System.err.println("Ошибка при сохранении данных в файл: " + fileName);
-            e.printStackTrace(); // Для более подробной трассировки ошибки
-        }
-    }
-
-    // Чтение данных из файла
-    public static Map<String, ?> loadData(String fileName) {
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName))) {
-            return (Map<String, ?>) in.readObject();
-        } catch (FileNotFoundException e) {
-            return null; // или инициализировать пустую коллекцию
-        } catch (IOException | ClassNotFoundException e) {
-            System.err.println("Ошибка при загрузке данных из файла: " + fileName);
-            return null;
-        }
-    }*/
-
     // Сохранение всех данных
     public static void saveAllData(UserRepository userRepository, BankAccountRepository bankAccountRepository,
                                    TransactionRepository transactionRepository, CurrencyRepository currencyRepository,

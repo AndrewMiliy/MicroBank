@@ -76,9 +76,4 @@ public class UserModel implements Serializable {
     public void setUserRole(UserRole userRole) {
         this.userRole = userRole;
     }
-
-    public void addBankAccount(BankAccountModel account) {
-        this.bankAccountId.add(account.getBankAccountId());
-    }
-
 }

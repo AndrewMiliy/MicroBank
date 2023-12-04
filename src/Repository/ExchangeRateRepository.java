@@ -23,21 +23,9 @@ public class ExchangeRateRepository {
         return rate;
     }
 
-    // Получение истории курсов обмена
-    public List<ExchangeRateModel> getExchangeRateHistory(String currencyFrom, String currencyTo) {
-        String key = createKey(currencyFrom, currencyTo);
-        return new ArrayList<>(exchangeRates.getOrDefault(key, new ArrayList<>()));
-    }
-
     // Создание ключа для Map
     private String createKey(String currencyFrom, String currencyTo) {
         return currencyFrom + "_" + currencyTo;
-    }
-
-    private void updateExchangeRate(ExchangeRateModel exchangeRate) {
-        String key = createKey(exchangeRate.getCurrencyFrom(), exchangeRate.getCurrencyTo());
-        exchangeRates.computeIfAbsent(key, k -> new ArrayList<>()).add(exchangeRate);
-        SaveData();
     }
 
     public Map<String,?> getExchangeRates() {
@@ -53,7 +41,4 @@ public class ExchangeRateRepository {
         DataPersistenceManager.saveData(exchangeRates, DataPersistenceManager.EXCHANGE_RATE_DATA_FILE);
     }
 
-    public List<ExchangeRateModel> getExchangeRateHistory(String code) {
-        return exchangeRates.getOrDefault(code, new ArrayList<>());
-    }
 }

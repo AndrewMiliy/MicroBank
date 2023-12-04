@@ -4,7 +4,6 @@ import Model.BankAccountModel;
 import Model.UserModel;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class UserRepository {
@@ -25,16 +24,6 @@ public class UserRepository {
                 .orElse(null);
     }
 
-    public void deleteUser(String userId, UserModel user) {
-        users.put(userId, user);
-        SaveData();
-    }
-
-    public void updateUser(String userId, UserModel user) {
-        users.put(userId, user);
-        SaveData();
-    }
-
     public Map<String,?> getUsers() {
         return users;
     }
@@ -48,10 +37,6 @@ public class UserRepository {
         DataPersistenceManager.saveData(users, DataPersistenceManager.USER_DATA_FILE);
     }
 
-    public List<UserModel> getAllUsers() {
-        return (List<UserModel>) users.values();
-    }
-
     public void addBankAccount(String userId, BankAccountModel account) {
         users.get(userId).getBankAccountId().add(account.getBankAccountId());
         SaveData();
@@ -60,9 +45,5 @@ public class UserRepository {
     public void deleteBankAccount(String userId, String accountId) {
         users.get(userId).getBankAccountId().removeIf(account -> account.equals(accountId));
         SaveData();
-    }
-
-    public void clearData() {
-        users.clear();
     }
 }

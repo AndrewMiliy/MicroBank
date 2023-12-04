@@ -30,7 +30,4 @@ public class CurrencyModel  implements Serializable {
         this.codeName = codeName;
     }
 
-    public String getCode() {
-        return codeName;
-    }
 }

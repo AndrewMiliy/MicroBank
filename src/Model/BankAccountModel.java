@@ -8,7 +8,6 @@ public class BankAccountModel implements Serializable {
     private static final long serialVersionUID = 1L;
     private String bankAccountId; //номер счета
     private String userId; //айдишник пользователя
-
     private String currencyCode; //валюта счета
     private double balance; //баланс счёта
 
@@ -53,6 +52,4 @@ public class BankAccountModel implements Serializable {
                 ", Balance=" + balance +
                 '}';
     }
-
-
 }

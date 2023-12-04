@@ -19,6 +19,12 @@ public class ConsoleUI_V2 {
     private UserModel currentUser;
     private UserModel selectedUser;
 
+    UserRepository userRepository;
+    BankAccountRepository bankAccountRepository;
+    TransactionRepository transactionRepository;
+    ExchangeRateRepository exchangeRateRepository;
+    CurrencyRepository currencyRepository;
+
     //region ANSI Styles =====
 
     private static final String dimRed = Styles.dimRed;
@@ -47,15 +53,15 @@ public class ConsoleUI_V2 {
 
 
     public ConsoleUI_V2() {
-        UserRepository userRepository = new UserRepository();
-        BankAccountRepository bankAccountRepository = new BankAccountRepository();
-        TransactionRepository transactionRepository = new TransactionRepository();
-        ExchangeRateRepository exchangeRateRepository = new ExchangeRateRepository();
-        CurrencyRepository currencyRepository = new CurrencyRepository();
+        userRepository = new UserRepository();
+        bankAccountRepository = new BankAccountRepository();
+        transactionRepository = new TransactionRepository();
+        exchangeRateRepository = new ExchangeRateRepository();
+        currencyRepository = new CurrencyRepository();
 
         this.userService = new UserService(userRepository);
-        this.bankAccountService = new BankAccountService(userRepository, bankAccountRepository, currencyRepository);
-        this.transactionService = new TransactionService(bankAccountRepository, transactionRepository, exchangeRateRepository);
+        this.bankAccountService = new BankAccountService(userRepository, bankAccountRepository);
+        this.transactionService = new TransactionService(bankAccountRepository, transactionRepository);
         this.currencyService = new CurrencyService(currencyRepository);
         this.exchangeRateService = new ExchangeRateService(exchangeRateRepository);
         this.validationService = new ValidationService();
@@ -81,6 +87,7 @@ public class ConsoleUI_V2 {
                     loginUser();
                     break;
                 case 0:
+                    DataPersistenceManager.saveAllData(userRepository, bankAccountRepository, transactionRepository, currencyRepository, exchangeRateRepository);
                     System.out.println(brightGreen + "До свидания!" + reset);
                     System.exit(0);
                     break;

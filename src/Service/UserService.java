@@ -4,7 +4,6 @@ import Model.UserModel;
 import Model.UserRole;
 import Repository.UserRepository;
 
-import java.util.List;
 import java.util.Map;
 
 public class UserService {
@@ -42,10 +41,6 @@ public class UserService {
         return uR.getUserByEmail(email);
     }
 
-    public List<UserModel> getAllUsers() {
-        return uR.getAllUsers();
-    }
-
     public Map<String, UserModel> getUsers() {
         return (Map<String, UserModel>) uR.getUsers();
     }
@@ -53,6 +48,4 @@ public class UserService {
     public UserModel getUserBy(String userId) {
         return uR.getUser(userId);
     }
-
-
 }

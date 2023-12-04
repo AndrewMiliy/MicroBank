@@ -1,13 +1,9 @@
 package Service;
 
-
 import Model.ExchangeRateModel;
 import Repository.ExchangeRateRepository;
 
-import java.util.List;
-
 public class ExchangeRateService {
-
     static ExchangeRateRepository exchangeRateRepository;
 
     public ExchangeRateService(ExchangeRateRepository exchangeRateRepository) {
@@ -33,9 +29,5 @@ public class ExchangeRateService {
 
     public static void addExchangeRate(ExchangeRateModel exchangeRate) {
         exchangeRateRepository.addExchangeRate(exchangeRate);
-    }
-
-    public List<ExchangeRateModel> getExchangeRateHistory(String code) {
-        return exchangeRateRepository.getExchangeRateHistory(code);
     }
 }

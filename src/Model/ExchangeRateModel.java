@@ -62,8 +62,4 @@ public class ExchangeRateModel implements Serializable {
     public Date getTimestamp() {
         return timestamp;
     }
-
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
 }

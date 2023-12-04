@@ -15,10 +15,6 @@ public class BankAccountRepository {
         SaveData();
     }
 
-    public List<BankAccountModel> getAccountsByUser(String userId) {
-        return accounts.getOrDefault(userId, new ArrayList<>());
-    }
-
     public void deleteAccount(String userId, String accountId) {
         accounts.getOrDefault(userId, new ArrayList<>()).removeIf(account -> account.getBankAccountId().equals(accountId));
         SaveData();
@@ -42,6 +38,7 @@ public class BankAccountRepository {
                 });
         SaveData();
     }
+
     public List<BankAccountModel> getAllAccountsForUser(String userId) {
         return accounts.getOrDefault(userId, new ArrayList<>());
     }
@@ -58,7 +55,6 @@ public class BankAccountRepository {
     private void SaveData() {
         DataPersistenceManager.saveData(accounts, DataPersistenceManager.ACCOUNT_DATA_FILE);
     }
-
 
     public Map<String, BankAccountModel> getAllAccountsByCurrencyCode(String code) {
         Map<String, BankAccountModel> filteredAccounts = new HashMap<>();

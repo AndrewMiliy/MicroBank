@@ -33,9 +33,5 @@ public class ValidationService {
     public static boolean validateFullName(String fullName) {
         return fullName != null && !fullName.trim().isEmpty() && fullName.matches("[a-zA-Z\\s]+");
     }
-
-    public static boolean validateRegistration(String email, String password, String fullName) {
-        return validateEmail(email) && validatePassword(password) && validateFullName(fullName);
-    }
 }
 

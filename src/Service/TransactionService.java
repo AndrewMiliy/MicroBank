@@ -1,12 +1,7 @@
 package Service;
 
-import Model.BankAccountModel;
-import Model.ExchangeRateModel;
-import Model.TransactionModel;
-import Model.TransactionType;
-import Repository.BankAccountRepository;
-import Repository.ExchangeRateRepository;
-import Repository.TransactionRepository;
+import Model.*;
+import Repository.*;
 import UI.Styles;
 
 import java.time.Instant;
@@ -16,7 +11,6 @@ import java.util.List;
 public class TransactionService {
     private BankAccountRepository bankAccountRepository;
     private TransactionRepository transactionRepository;
-    private ExchangeRateRepository exchangeRateRepository;
 
     //region ANSI Styles =====
 
@@ -44,14 +38,10 @@ public class TransactionService {
 
     //endregion ANSI Styles =====
 
-    public TransactionService(BankAccountRepository bankAccountRepository, TransactionRepository transactionRepository, ExchangeRateRepository exchangeRateRepository) {
+    public TransactionService(BankAccountRepository bankAccountRepository, TransactionRepository transactionRepository) {
         this.bankAccountRepository = bankAccountRepository;
         this.transactionRepository = transactionRepository;
-        this.exchangeRateRepository = exchangeRateRepository;
     }
-
-
-
 
     // Пополнение счета
     public boolean deposit(String accountId, double amount) {
@@ -78,8 +68,6 @@ public class TransactionService {
         }
     }
 
-
-    // Снятие средств со счета
     // Снятие средств со счета
     public boolean withdraw(String accountId, double amount) {
         try {
@@ -108,8 +96,6 @@ public class TransactionService {
         }
     }
 
-
-    // Обмен валют
     // Обмен валют
     public boolean exchangeCurrency(String fromAccountId, String toAccountId, double amount) {
         try {
@@ -137,7 +123,6 @@ public class TransactionService {
             return false;
         }
     }
-
 
     // Получение истории транзакций по счету
     public List<TransactionModel> getTransactionHistory(String accountId) {

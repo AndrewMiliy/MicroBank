@@ -47,6 +47,4 @@ public class CurrencyRepository {
     private void SaveData() {
         DataPersistenceManager.saveData(currencies, DataPersistenceManager.CURRENCY_DATA_FILE);
     }
-
-
 }
