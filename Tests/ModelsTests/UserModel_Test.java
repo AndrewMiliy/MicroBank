@@ -1,13 +1,11 @@
+package ModelsTests;
+
 import Model.UserModel;
-import Model.UserRole;
-import Service.IDCounterService;
 import org.junit.Before;
 import org.junit.Test;
-
+import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 
 public class UserModel_Test {
 
@@ -16,7 +14,7 @@ public class UserModel_Test {
     @Before
     public void setUp() {
 
-        user = new UserModel(IDCounterService.getNextUserId(),"John", "Doe", "strongPassword", "john.doe@example.com", UserRole.USER);
+        user = new UserModel("John", "Doe", "strongPassword", "john.doe@example.com");
     }
 
     @Test
@@ -65,7 +63,7 @@ public class UserModel_Test {
 
     @Test
     public void testGetBankAccountId() {
-        assertEquals(new ArrayList<>(), user.getBankAccountId());
+        assertNull(user.getBankAccountId());
     }
 
     @Test

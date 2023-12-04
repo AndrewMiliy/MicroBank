@@ -1,3 +1,4 @@
+package ModelsTests;
 import Model.ExchangeRateModel;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,4 +51,5 @@ public class ExchangeRateModel_Test {
         String expectedString = "ExchangeRateModel{currencyFrom='USD', currencyTo='EUR', rate=0.85}";
         assertEquals(expectedString, exchangeRate.toString());
     }
+
 }
